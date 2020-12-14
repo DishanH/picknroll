@@ -1,0 +1,15 @@
+@import '~scss/helpers/variables';
+
+.site-summary{
+  background-color: $gray-lighter;
+  @media (max-width: $screen-md) {
+    padding-top: floor($grid-vertical-step * 2); //~48px;
+  }
+}
+
+.refer-friend {
+  background-color: $gray-light;
+  @media (max-width: $screen-md) {
+    padding-top: floor($grid-vertical-step * 2); //~48px;
+  }
+}
