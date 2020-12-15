@@ -13,7 +13,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
-  @ViewChild('ageverify', { static: false }) privacyPopup: TemplateRef<any>;
+  @ViewChild('ageverify') privacyPopup: TemplateRef<any>;
   closeResult = false;
   public products: any;
   constructor(
