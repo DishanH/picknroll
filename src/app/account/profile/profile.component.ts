@@ -64,15 +64,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     // Update password
-    if (this.formProfile.value.password && this.formProfile.value.confirmPassword
-      && (this.formProfile.value.password === this.formProfile.value.confirmPassword)) {
-      this.authService.updatePassword(this.formProfile.value.password)
-      .catch(
-        error => {
-          this.profileErrors = error.message;
-        }
-      );
-    }
+    // if (this.formProfile.value.password && this.formProfile.value.confirmPassword
+    //   && (this.formProfile.value.password === this.formProfile.value.confirmPassword)) {
+    //   this.authService.updatePassword(this.formProfile.value.password)
+    //   .catch(
+    //     error => {
+    //       this.profileErrors = error.message;
+    //     }
+    //   );
+    // }
   }
 
   ngOnDestroy() {

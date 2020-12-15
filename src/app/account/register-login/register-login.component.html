@@ -54,22 +54,22 @@
       <div class="col-md-6">
         <div class="padding-top-3x hidden-md-up"></div>
         <h3 class="margin-bottom-1x">No Account? Register</h3>
-        <p>Registration takes less than a minute but gives you full control over your orders.</p>
+        <p>Register With Pick N Roll Cannabis Co</p>
         <form [formGroup]="registerForm" class="row" (ngSubmit)="onRegister()">
 
-          <!-- <div class="col-sm-6">
+           <div class="col-sm-6">
             <div class="form-group">
               <label for="reg-fn">First Name</label>
               <input class="form-control" formControlName="firstName" type="text" id="reg-fn" required="">
             </div>
-          </div> -->
+          </div>
 
-          <!-- <div class="col-sm-6">
+           <div class="col-sm-6">
             <div class="form-group">
               <label for="reg-ln">Last Name</label>
               <input class="form-control" formControlName="lastName" type="text" id="reg-ln" required="">
             </div>
-          </div> -->
+          </div>
 
           <div class="col-sm-12">
             <div class="form-group" [ngClass]="{'has-danger': !registerForm.get('email').valid && registerForm.get('email').touched}">
@@ -78,25 +78,51 @@
             </div>
           </div>
 
-          <!-- <div class="col-sm-6">
+          <div class="col-sm-6">
+            <div class="form-group" [ngClass]="{'has-danger': !registerForm.get('password').valid && registerForm.get('password').touched}">
+              <label for="reg-pass">Password</label>
+              <input class="form-control" formControlName="password" type="password" id="reg-pass" required>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="form-group" [ngClass]="{'has-danger': !registerForm.get('confirmPassword').valid && registerForm.get('confirmPassword').touched}">
+              <label for="reg-pass-confirm">Confirm Password</label>
+              <input class="form-control" formControlName="confirmPassword" type="password" id="reg-pass-confirm" required>
+            </div>
+          </div>
+
+           <div class="col-sm-6">
             <div class="form-group">
               <label for="reg-phone">Phone Number</label>
               <input class="form-control" formControlName="phoneNumber" type="text" id="reg-phone" required>
             </div>
-          </div> -->
+          </div>
 
-            <div class="col-sm-6">
-              <div class="form-group" [ngClass]="{'has-danger': !registerForm.get('password').valid && registerForm.get('password').touched}">
-                <label for="reg-pass">Password</label>
-                <input class="form-control" formControlName="password" type="password" id="reg-pass" required>
-              </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="reg-dob">Date of Birth</label>
+              <input class="form-control" formControlName="dateOfBirth" type="date" id="reg-dob" required>
             </div>
-            <div class="col-sm-6">
-              <div class="form-group" [ngClass]="{'has-danger': !registerForm.get('confirmPassword').valid && registerForm.get('confirmPassword').touched}">
-                <label for="reg-pass-confirm">Confirm Password</label>
-                <input class="form-control" formControlName="confirmPassword" type="password" id="reg-pass-confirm" required>
-              </div>
+          </div>
+
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label for="reg-address">Address</label>
+              <input class="form-control" formControlName="lastName" type="text" id="reg-address" required="">
             </div>
+          </div>
+
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label for="reg-customfile">A valid ID is required to shop at Pick N Roll.
+                You must be 19+ years old. Please upload your ID below.</label>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="reg-customfile">
+              <label class="custom-file-label" for="reg-customfile">Upload file (Max 15MB)</label>
+            </div>
+          </div>
+          </div>
 
           <div class="col-12 text-center text-sm-right">
 

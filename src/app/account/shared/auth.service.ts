@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase/app';
+// import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase } from '@angular/fire/database';
+// import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuth } from '@angular/fire/auth';
+// import * as firebase from 'firebase/app';
+import { auth } from 'firebase';
 
 import { Observable ,  of } from 'rxjs';
 import { take ,  takeUntil ,  switchMap, map } from 'rxjs/operators';
@@ -38,9 +41,9 @@ export class AuthService {
       );
   }
 
-  public googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    return this.afAuth.auth.signInWithPopup(provider).then(
+  public async googleLogin() {
+    const provider = new auth.GoogleAuthProvider();
+    return await this.afAuth.signInWithPopup(provider).then(
       (credential) => {
         this.updateNewUser(credential.user);
       },
@@ -51,7 +54,7 @@ export class AuthService {
   }
 
   public emailSignUp(email: string, password: string) {
-    return this.afAuth.auth
+    return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then(
         (user) => {
@@ -64,7 +67,7 @@ export class AuthService {
   }
 
   emailLogin(email: string, password: string) {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password).then(
+    return this.afAuth.signInWithEmailAndPassword(email, password).then(
       (user) => {
         this.updateNewUser(user);
       },
@@ -75,7 +78,7 @@ export class AuthService {
   }
 
   public signOut() {
-    this.afAuth.auth.signOut();
+    this.afAuth.signOut();
     this.messageService.add('You have been logged out.');
   }
 
@@ -85,26 +88,26 @@ export class AuthService {
   }
 
   public updatePassword(password: string) {
-    return this.afAuth.auth.currentUser
-      .updatePassword(password)
-      .then(() => {
-        this.messageService.add('Password has been updated!');
-      })
-      .catch(function(error) {
-        throw error;
-      });
+    // return this.afAuth.currentUser
+    //   .updatePassword(password)
+    //   .then(() => {
+    //     this.messageService.add('Password has been updated!');
+    //   })
+    //   .catch(function(error) {
+    //     throw error;
+    //   });
   }
 
   public updateEmail(email: string) {
-    return this.afAuth.auth.currentUser
-      .updateEmail(email)
-      .then(() => {
-        this.updateExistingUser({ email: email });
-        this.messageService.add('User email have been updated!');
-      })
-      .catch(function(error) {
-        throw error;
-      });
+    return this.afAuth.currentUser
+      // .updateEmail(email)
+      // .then(() => {
+      //   this.updateExistingUser({ email: email });
+      //   this.messageService.add('User email have been updated!');
+      // })
+      // .catch(function(error) {
+      //   throw error;
+      // });
   }
 
   private updateNewUser(authData) {
@@ -123,15 +126,15 @@ export class AuthService {
   }
 
   private updateExistingUser(userData) {
-    const currentUser = this.afAuth.auth.currentUser;
-    const ref = this.db.object('users/' + currentUser.uid);
-    ref
-      .valueChanges()
-      .pipe(
-        take(1)
-      )
-      .subscribe((user) => {
-        ref.update(userData);
-      });
+    // const currentUser = this.afAuth.currentUser;
+    // const ref = this.db.object('users/' + currentUser.uid);
+    // ref
+    //   .valueChanges()
+    //   .pipe(
+    //     take(1)
+    //   )
+    //   .subscribe((user) => {
+    //     ref.update(userData);
+    //   });
   }
 }
