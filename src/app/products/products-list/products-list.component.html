@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="column">
-            <a *ngIf="user && user.roles.admin" class="btn btn-primary mt-0 mr-0 align-top" routerLink="/admin/add" href="">
+            <a *ngIf="user && user.roles?.admin" class="btn btn-primary mt-0 mr-0 align-top" routerLink="/admin/add" href="">
                 <i class="icon-plus"></i>
                 <span> Add Product</span>
             </a>

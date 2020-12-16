@@ -14,7 +14,7 @@
           </div> -->
           <div *ngIf="user" class="user-data">
             <h4>{{ user.firstName }} {{ user.lastName }}</h4>
-            <span>{{ user.email }} <span *ngIf="user.roles.admin">(Admin)</span></span>
+            <span>{{ user.email }} <span *ngIf="user.roles?.admin">(Admin)</span></span>
           </div>
         </div>
       </aside>

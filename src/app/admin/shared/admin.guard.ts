@@ -20,7 +20,7 @@ export class AdminGuard implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     return this.authService.user.pipe(
       take(1),
-      map((user) => (user && user.roles.admin ? true : false)),
+      map((user) => (user && user.roles?.admin ? true : false)),
       tap((authorized) => {
         if (!authorized) {
           this.router.navigate(['/register-login']);
