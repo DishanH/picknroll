@@ -9,7 +9,7 @@ import { filter,map } from "rxjs/operators";
 
 @Injectable()
 export class PromoService {
-  jsonUrl = "../../../assets/data/demo_data.json";
+  private jsonUrl = "../../../assets/data/demo_data.json";
 
   constructor(
     private angularFireDatabase: AngularFireDatabase,

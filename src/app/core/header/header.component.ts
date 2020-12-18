@@ -14,27 +14,27 @@ import { User } from '../../models/user.model';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  private authSubscription: Subscription;
-  public user: User;
+  // private authSubscription: Subscription;
+  // public user: User;
   public showSearch;
 
   constructor(
-    private authService: AuthService,
+    //private authService: AuthService,
     private router: Router,
     private offcanvasService: OffcanvasService
   ) {}
 
   ngOnInit() {
-    this.authSubscription = this.authService.user.subscribe((user) => {
-      this.user = user;
-    });
+    // this.authSubscription = this.authService.user.subscribe((user) => {
+    //   this.user = user;
+    // });
   }
 
-  public onLogOut(e: Event) {
-    this.authService.signOut();
-    this.router.navigate(['/register-login']);
-    e.preventDefault();
-  }
+  // public onLogOut(e: Event) {
+  //   this.authService.signOut();
+  //   this.router.navigate(['/register-login']);
+  //   e.preventDefault();
+  // }
 
   public onMenuToggle(e: Event) {
     this.offcanvasService.openOffcanvasNavigation();
@@ -42,6 +42,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authSubscription.unsubscribe();
+    // this.authSubscription.unsubscribe();
   }
 }

@@ -18,7 +18,7 @@ import { CompleteComponent } from './checkout/complete/complete.component';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: ':id/products', component: ProductsListComponent },
+  { path: ':category/products', component: ProductsListComponent },
   { path: 'products/:id', component: ProductDetailComponent },
   { path: 'cart', component: CartComponent },
   { path: 'admin/add', component: AddEditComponent, canActivate: [AdminGuard] },

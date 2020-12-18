@@ -271,16 +271,20 @@
     min-height: 100%;
   }
 }
-.site-logo,
+
 .offcanvas-toggle {
+  display: table-cell;
+  vertical-align: middle;
+}
+.site-logo{
   display: table-cell;
   vertical-align: middle;
 }
 
 // Site logo
 .site-logo {
-  width: ($logo-width + 25);
-  padding: 12px 0 12px 25px;
+  width: ($logo-width + 100);
+  padding: 12px 0 12px 45px;
   text-decoration: none;
   > img {
     display: block;
@@ -623,9 +627,10 @@
   }
 }
 @media (max-width: $screen-sm) {
-  .offcanvas-toggle { width: 56px; }
+  .offcanvas-toggle { width: 56px; display: table-cell; }
   .site-logo {
-    width: ($logo-width + 16);
-    padding-left: 16px;
+    width: ($logo-width + 50);
+    padding: 12px 0 12px 5px;
   }
 }
+
