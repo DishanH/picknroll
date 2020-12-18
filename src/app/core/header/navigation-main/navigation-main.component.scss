@@ -5,6 +5,7 @@
 // Main Navigation
 .site-menu {
   position: absolute;
+  padding: 0 30px;
   top: 0;
   left: 0;
   width: 100%;
@@ -17,7 +18,6 @@
     padding: 0;
     list-style: none;
     > li {
-
       > a {
         padding: 0 15px;
         transition: color .3s;
@@ -42,7 +42,8 @@
     > li {
       display: table-cell;
       position: relative;
-      vertical-align: middle;
+      vertical-align: bottom;
+      // vertical-align: middle;
 
       > a {
         display: table;
@@ -53,7 +54,8 @@
         text-transform: uppercase;
         > span {
           display: table-cell;
-          vertical-align: middle;
+          vertical-align: bottom;
+          // vertical-align: middle;
 				}
       }
 

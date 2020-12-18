@@ -1,23 +1,29 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 
-import { Subject } from 'rxjs';
-import { map, take, takeLast, takeUntil, tap } from 'rxjs/operators';
+import { Subject } from "rxjs";
+import { map, take, takeLast, takeUntil, tap } from "rxjs/operators";
 
-import { AuthService } from '../../account/shared/auth.service';
-import { PagerService } from '../../pager/pager.service';
-import { ProductsCacheService } from '../shared/products-cache.service';
-import { ProductService } from '../shared/product.service';
-import { UiService } from '../shared/ui.service';
-import { SortPipe } from '../shared/sort.pipe';
+import { AuthService } from "../../account/shared/auth.service";
+import { PagerService } from "../../pager/pager.service";
+import { ProductsCacheService } from "../shared/products-cache.service";
+import { ProductService } from "../shared/product.service";
+import { UiService } from "../shared/ui.service";
+import { SortPipe } from "../shared/sort.pipe";
 
-import { Product } from '../../models/product.model';
-import { User } from '../../models/user.model';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Product } from "../../models/product.model";
+import { User } from "../../models/user.model";
+import { ActivatedRoute, Params } from "@angular/router";
+import { identifierName } from "@angular/compiler";
 
 @Component({
-  selector: 'app-products',
-  templateUrl: './products-list.component.html',
-  styleUrls: ['./products-list.component.scss'],
+  selector: "app-products",
+  templateUrl: "./products-list.component.html",
+  styleUrls: ["./products-list.component.scss"],
 })
 export class ProductsListComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject();
@@ -27,6 +33,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   user: User;
   productsLoading: boolean;
   currentPagingPage: number;
+  currrentCategory: string;
 
   constructor(
     private productService: ProductService,
@@ -52,19 +59,29 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     this.route.params
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((params: Params) => {
-        this.getProducts();
+        this.getProducts(params['category']);
       });
   }
 
-  getProducts() {
-    const id = +this.route.snapshot.paramMap.get('id');
+  // this.currrentCategory = this.route.snapshot.paramMap.get('category');
+  // getProducts() {
+  //   this.productsLoading = true;
+  //   this.productService
+  //     .getProducts()
+  //     .pipe(
+  //       takeUntil(this.unsubscribe$)
+  //     )
+  //     .subscribe((products) => {
+  //       this.products = <Product[]>products;
+  //       this.setPage(this.currentPagingPage);
+  //       this.productsLoading = false;
+  //     });
+  // }
+  getProducts(category: string = "") {
     this.productsLoading = true;
     this.productService
-      .getProducts()
-      .pipe(
-        takeUntil(this.unsubscribe$),
-        map((a) => a.slice(0, id === 2 ? 5 : a.length))
-      )
+      .getProducts(category)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((products) => {
         this.products = <Product[]>products;
         this.setPage(this.currentPagingPage);
@@ -78,7 +95,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   }
 
   setPage(page: number) {
-    if (page < 1 || page > this.pager.totalPages) {
+    if (page < 1 || (this.pager.totalPages != 0 && page > this.pager.totalPages)) {
       return;
     }
     this.pager = this.pagerService.getPager(this.products.length, page, 8);
@@ -92,8 +109,8 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   onSort(sortBy: string) {
     this.sortPipe.transform(
       this.products,
-      sortBy.replace(':reverse', ''),
-      sortBy.endsWith(':reverse')
+      sortBy.replace(":reverse", ""),
+      sortBy.endsWith(":reverse")
     );
     this.uiService.sorting$.next(sortBy);
     this.setPage(1);

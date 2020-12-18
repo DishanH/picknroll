@@ -167,7 +167,8 @@ export class AddEditComponent implements OnInit, OnDestroy {
       (savedProduct: Product) => {
         if (savedProduct.id) {
           this.product = null;
-          this.router.navigate(['/products']);
+          //this.router.navigate(['/products']);
+          this.setProduct();
         }
       },
       (error) => {

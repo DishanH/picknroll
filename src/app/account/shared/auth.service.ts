@@ -112,7 +112,6 @@ export class AuthService {
 
   private updateNewUser(authData) {
     const userData = new User(authData);
-    console.log(authData)
     const ref = this.db.object("users/" + authData.uid);
     ref
       .valueChanges()

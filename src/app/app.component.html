@@ -1,10 +1,13 @@
 <div class="main-wrapper" [ngClass]="{'offcanvas-open': offcanvasService.offcanvasNavigationOpen | async}">
   <app-navigation-off-canvas></app-navigation-off-canvas>
   <app-top-bar></app-top-bar>
-  <app-header></app-header>
-  <app-content></app-content>
+  <!-- <div class="d-flex flex-row"> -->
+    <!-- <app-header></app-header> -->
+    <app-navigation-main></app-navigation-main>
+  <!-- </div> -->
+  <!-- <app-content></app-content> -->
   <!-- <app-modal></app-modal> -->
-  <ng-template #ageverify let-modal>
+  <!-- <ng-template #ageverify let-modal>
     <div>
       <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">
@@ -33,5 +36,5 @@
         </button>
       </div>
     </div>
-  </ng-template>
+  </ng-template>-->
 </div>

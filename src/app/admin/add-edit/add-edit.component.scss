@@ -1,5 +1,5 @@
 // Progress bars
-@import '../../../scss/helpers/_variables.scss';
+@import "../../../scss/helpers/_variables.scss";
 
 //
 // Progress Bars
@@ -18,4 +18,8 @@
 .progress-bar {
   height: $progress-height;
   background-color: $progress-bg;
+}
+.custom-file-label {
+  width: 96%;
+  margin: 0 auto;
 }

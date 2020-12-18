@@ -1,3 +1,4 @@
+import { NullVisitor } from "@angular/compiler/src/render3/r3_ast";
 import { Component, OnInit, ViewChild, OnChanges } from "@angular/core";
 import {
   FormGroup,
@@ -44,6 +45,10 @@ export class RegisterLoginComponent implements OnInit {
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, Validators.required),
       confirmPassword: new FormControl(null, Validators.required),
+      phone: new FormControl(null, Validators.required),
+      photoURL: new FormControl(null),
+      address: new FormControl(null),
+      dateOfBirth: new FormControl(null, Validators.required),
     });
   }
 

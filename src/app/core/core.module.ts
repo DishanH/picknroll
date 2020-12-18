@@ -10,6 +10,7 @@ import { TopBarComponent } from './top-bar/top-bar.component';
 import { FooterComponent } from './content/footer/footer.component';
 import { NavigationMainComponent } from './header/navigation-main/navigation-main.component';
 import { ToolbarCartComponent } from './header/toolbar/cart/cart.component';
+import { ToolbarProfieComponent } from "./header/toolbar/profie/profie.component";
 import { HomeComponent } from './home/home.component';
 import { MainSliderComponent } from './home/main-slider/main-slider.component';
 import { ProductWidgetComponent } from './home/product-widget/product-widget.component';
@@ -41,6 +42,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         FooterComponent,
         NavigationMainComponent,
         ToolbarCartComponent,
+        ToolbarProfieComponent,
         HomeComponent,
         MainSliderComponent,
         ProductWidgetComponent,
@@ -58,6 +60,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         CommonModule,
         SharedModule,
         NavigationOffCanvasComponent,
+        NavigationMainComponent,
         TopBarComponent,
         HeaderComponent,
         ContentComponent,
