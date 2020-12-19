@@ -317,9 +317,12 @@
 
 // Site logo
 .site-logo {
-  width: ($logo-width + 25);
-  padding: 12px 0 12px 25px;
+  // width: ($logo-width + 25);
+  width: ($logo-width + 55);
+  // padding: 12px 0 12px 25px;
   text-decoration: none;
+  position: relative;//D
+  left: 30px;
   cursor: pointer;
   > img {
     display: block;
@@ -454,7 +457,8 @@
   position: absolute;
   top: 0;
   right: 30px;
-  height: 100%;
+  // height: 100%;
+  height: 50%;
   z-index: 5;
   .inner {
     display: table;
@@ -465,7 +469,11 @@
   // Tools
   .tools {
     display: table-cell;
-    vertical-align: middle;
+    // vertical-align: middle;
+    vertical-align: top;
+  }
+  .search{//D
+    margin: 10px 5px;
   }
   .search,
   .account,
@@ -723,9 +731,15 @@
 @media (max-width: $nav-collapse) {
   .navbar {
     min-height: 78px;
+    padding: 0;//D
   }
   .toolbar {
-    right: 15px;
+    // right: 15px;
+    right: 10px;
+    height: 100%; //D
+    .tools{//D
+      vertical-align: middle;
+    }
   }
   .offcanvas-toggle.menu-toggle {
     display: table-cell;
@@ -748,7 +762,9 @@
     width: 56px;
   }
   .site-logo {
-    width: ($logo-width + 16);
-    padding-left: 16px;
+    // width: ($logo-width + 16);
+    width: ($logo-width + 40);
+    // padding-left: 16px;
+    left: 40px;//D
   }
 }
