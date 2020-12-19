@@ -1,18 +1,32 @@
-<app-search
-  (onHideSearch)="showSearch = false"
-  [showSearch]="showSearch"
-  class="site-search-wrapper"
-></app-search>
-<!-- <app-navigation-main></app-navigation-main> -->
-<!-- Toolbar-->
-<!-- <div class="toolbar">
-  <div class="inner">
-    <div class="tools"> -->
-      <div class="search">
-        <i (click)="showSearch = true" class="icon-search"></i>
+<header class="navbar navbar-sticky">
+  <app-search
+    (onHideSearch)="showSearch = false"
+    [showSearch]="showSearch"
+    class="site-search-wrapper"
+  ></app-search>
+  <div class="site-branding">
+    <div class="inner">
+      <!-- Off-Canvas Toggle (#shop-categories)-->
+      <!-- <a class="offcanvas-toggle cats-toggle" href="" data-toggle="offcanvas"></a> -->
+      <!-- Off-Canvas Toggle (#mobile-menu)-->
+      <a class="offcanvas-toggle menu-toggle" href="" (click)="onMenuToggle($event)"></a>
+      <div class="site-logo">
+        <a routerLink="/home" href="">
+          <img src="https://www.yorkgraphicdesigners.co.uk/wp-content/uploads/2020/04/coronavirus_logo-2.jpg" alt="picknroll">
+        </a>
       </div>
-      <!-- <app-toolbar-profie></app-toolbar-profie>
-      <app-toolbar-cart></app-toolbar-cart> -->
-    <!-- </div>
+    </div>
   </div>
-</div> -->
+
+  <app-navigation-main></app-navigation-main>
+  <!-- Toolbar-->
+  <div class="toolbar">
+    <div class="inner">
+      <div class="tools">
+        <div class="search">
+          <i (click)="showSearch = true" class="icon-search"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

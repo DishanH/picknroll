@@ -10,8 +10,9 @@
 }
 .footer-copyright {
   margin: 0;
+  text-align: center;
   padding: {
-    top: 10px;
+    // top: 10px;
     bottom: $grid-vertical-step; // ~24px
   }
   color: rgba($white-color, .5);

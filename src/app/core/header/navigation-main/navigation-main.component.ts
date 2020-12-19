@@ -25,7 +25,6 @@ export class NavigationMainComponent implements OnInit, OnDestroy {
     });
   }
   public onMenuToggle(e: Event) {
-    console.log(e)
     this.offcanvasService.openOffcanvasNavigation();
     e.preventDefault();
   }

@@ -36,10 +36,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   //   e.preventDefault();
   // }
 
-  // public onMenuToggle(e: Event) {
-  //   this.offcanvasService.openOffcanvasNavigation();
-  //   e.preventDefault();
-  // }
+  public onMenuToggle(e: Event) {
+    this.offcanvasService.openOffcanvasNavigation();
+    e.preventDefault();
+  }
 
   ngOnDestroy() {
     // this.authSubscription.unsubscribe();

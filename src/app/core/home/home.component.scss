@@ -1,0 +1,12 @@
+@import "~scss/helpers/variables";
+@import "~scss/helpers/mixins";
+
+.site-summary {
+  width: 80% !important;
+}
+.services {
+  > div > div {
+    padding: 20px 80px;
+  }
+
+}

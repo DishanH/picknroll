@@ -1,14 +1,4 @@
-<!-- Main Navigation-->
 
-<header class="navbar navbar-sticky">
-  <div class="site-branding">
-    <div class="inner">
-      <!-- Off-Canvas Toggle (#shop-categories)-->
-      <!-- <a class="offcanvas-toggle cats-toggle" href="" data-toggle="offcanvas"></a> -->
-      <!-- Off-Canvas Toggle (#mobile-menu)-->
-      <a class="offcanvas-toggle" href="" (click)="onMenuToggle($event)"></a>
-    </div>
-  </div>
 <nav class="site-menu">
   <ul>
     <li routerLinkActive="active">
@@ -46,11 +36,11 @@
         <span>More</span>
       </a>
     </li>
-    <li routerLinkActive="active">
+    <!-- <li routerLinkActive="active">
       <a routerLink="/cart" href="">
         <span>Cart</span>
       </a>
-    </li>
+    </li> -->
     <li *ngIf="user && user.roles?.admin" routerLinkActive="active">
       <a routerLink="/admin/add" href="">
         <span>Add Product</span>
@@ -86,4 +76,3 @@
     </li> -->
   </ul>
 </nav>
-</header>

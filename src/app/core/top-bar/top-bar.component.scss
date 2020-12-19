@@ -9,7 +9,8 @@
    height: 44px;
   padding: 0 30px;
   border-bottom: 1px solid $border-color;
-  background-color: $gray-lighter;
+  // background-color: $gray-lighter;
+  background-color: $white-color;
   z-index: 9010;
   .topbar-column {
     display: table-cell;
