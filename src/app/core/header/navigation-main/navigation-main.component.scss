@@ -15,8 +15,9 @@
   z-index: 1;
 
   ul {
-     margin: 0 auto;
-    // margin-right: 5%;//Dishan
+    //  margin: 0 auto;
+    float: right;//Dishan
+
     padding: 0;
     list-style: none;
     > li {
