@@ -6,6 +6,8 @@
 //
 //## Gray and brand colors for use across Theme.
 //---------------------------------------------------
+//pick-n-roll
+$green-lighter:          #e0f4e4;
 
 // Grayscale
 $gray-darker:            #374250;
@@ -102,7 +104,8 @@ $line-height-display:    1.15;
 //== Grid Vertical Step
 // -------------------------------------------------------
 
-$grid-vertical-step:     24px;
+// $grid-vertical-step:     24px;
+$grid-vertical-step:     12px;
 
 
 //== Border Radius
