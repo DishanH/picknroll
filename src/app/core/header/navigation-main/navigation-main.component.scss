@@ -4,8 +4,8 @@
 
 // Main Navigation
 .site-menu {
-  position: absolute;
-  padding: 0 30px;
+  position: relative;
+  // padding: 0 30px;
   top: 0;
   left: 0;
   right: 0;
@@ -22,7 +22,8 @@
     list-style: none;
     > li {
       > a {
-        padding: 0 15px;
+        // padding: 0 15px;
+        padding: 5px 15px;//D
         transition: color .3s;
         color: $nav-link-color;
 

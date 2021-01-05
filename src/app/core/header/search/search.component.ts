@@ -4,25 +4,31 @@ import {
   Input,
   OnChanges,
   EventEmitter,
-  Output
-} from '@angular/core';
+  Output,
+} from "@angular/core";
 
-import { Subject } from 'rxjs';
-import { debounceTime ,  distinctUntilChanged ,  filter ,  switchMap } from 'rxjs/operators';
+import { Subject } from "rxjs";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  switchMap,
+} from "rxjs/operators";
 
-import { ProductService } from '../../../products/shared/product.service';
+import { ProductService } from "../../../products/shared/product.service";
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  selector: "app-search",
+  templateUrl: "./search.component.html",
+  styleUrls: ["./search.component.scss"],
 })
 export class SearchComponent implements OnInit {
   products: any[];
   term$ = new Subject<string>();
   @Input() showSearch: boolean;
   @Output() onHideSearch = new EventEmitter<boolean>();
-
+  showMore = false;
+  seachText:string;
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
@@ -33,8 +39,9 @@ export class SearchComponent implements OnInit {
         filter((term) => term.length > 0),
         switchMap((term) => this.search(term))
       )
-      .subscribe((results) => {
-        this.products = results;
+      .subscribe((results: any[]) => {
+        this.products = results.slice(0, 3);
+        this.showMore = results.length > 3;
       });
   }
 
@@ -49,12 +56,15 @@ export class SearchComponent implements OnInit {
       this.term$.next(term);
     } else {
       this.products = [];
-      this.term$.next('');
+      this.term$.next("");
     }
   }
 
   public onCloseSearch() {
-    this.showSearch = false;
-    this.onHideSearch.emit(false);
+    // this.showSearch = false;
+    // this.onHideSearch.emit(false);
+    this.products = [];
+    this.term$.next("");
+    this.seachText ="";
   }
 }

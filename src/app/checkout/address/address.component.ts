@@ -34,7 +34,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   private initFormGroup() {
-    this.countries = ['Switzerland'];
+    this.countries = ['Canada'];
     this.formAddress = new FormGroup({
       firstname: new FormControl(
         this.user && this.user.firstName,

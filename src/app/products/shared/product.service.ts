@@ -90,6 +90,7 @@ export class ProductService {
   }
 
   public findProducts(term): Observable<any> {
+    console.log(term);
     return this.db
       .list<Product>("products", (ref) =>
         ref

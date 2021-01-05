@@ -1,9 +1,5 @@
 <header class="navbar navbar-sticky">
-  <app-search
-    (onHideSearch)="showSearch = false"
-    [showSearch]="showSearch"
-    class="site-search-wrapper"
-  ></app-search>
+  <!-- <app-search (onHideSearch)="showSearch = false" [showSearch]="showSearch" class="site-search-wrapper"></app-search> -->
   <div class="site-branding">
     <div class="inner">
       <!-- Off-Canvas Toggle (#shop-categories)-->
@@ -11,20 +7,30 @@
       <!-- Off-Canvas Toggle (#mobile-menu)-->
       <a class="offcanvas-toggle menu-toggle" href="" (click)="onMenuToggle($event)"></a>
       <a class="site-logo" routerLink="/home" href="">
-          <img src="https://www.yorkgraphicdesigners.co.uk/wp-content/uploads/2020/04/coronavirus_logo-2.jpg" alt="picknroll">
+        <img src="https://www.yorkgraphicdesigners.co.uk/wp-content/uploads/2020/04/coronavirus_logo-2.jpg"
+          alt="picknroll">
       </a>
     </div>
   </div>
-
-  <app-navigation-main></app-navigation-main>
-  <!-- Toolbar-->
-  <div class="toolbar">
-    <div class="inner">
-      <div class="tools">
-        <div class="search">
-          <i (click)="showSearch = true" class="icon-search"></i>
+  <div class="table site-header">
+    <!-- Toolbar-->
+    <div class="row site-seach">
+      <div class="col-md-11">
+        <!-- <input style="width: 60%;float:right" class="form-control rounded-0 border-right-0 border-left-0 border-top-0" type="search" placeholder="Search" aria-label="Search" /> -->
+        <app-search [showSearch]="true"></app-search>
+      </div>
+      <div class="toolbar col-md-1">
+        <!-- <div class="inner"> -->
+        <div class="tools">
+          <div class="search">
+            <!-- <i (click)="showSearch = true" class="icon-search"></i> -->
+            <a routerLink="/product-search" href=""></a><i class="icon-search"></i>
+          </div>
         </div>
       </div>
+    </div>
+    <div class="row site-navigation">
+      <app-navigation-main></app-navigation-main>
     </div>
   </div>
 </header>

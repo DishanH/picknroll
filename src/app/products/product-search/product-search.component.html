@@ -1,0 +1,44 @@
+<app-page-title title="Search" [children]="[{title: 'Product Search'}]"></app-page-title>
+<div class="container padding-bottom-3x mb-1">
+  <div class="md-form padding-bottom-1x mb-2">
+    <input class="form-control" type="text" placeholder="Search" aria-label="Search" (keyup.enter)="onEnter($event)">
+  </div>
+
+  <div class="products-list" [ngClass]="{'loading' : productsLoading}">
+    <!-- Products Grid Mode View -->
+    <div class="row" *ngIf="(uiService.displayMode$ | async) === 'grid'">
+      <app-products-list-item ngClass="col-6 col-sm-6 col-md-4 col-lg-3" *ngFor="let product of productsPaged"
+        [product]="product" [displayMode]="(uiService.displayMode$ | async)">
+      </app-products-list-item>
+    </div>
+
+    <!-- Products List Mode View-->
+    <div class="row" *ngIf="(uiService.displayMode$ | async) === 'list'">
+      <app-products-list-item ngClass="col-12" *ngFor="let product of products" [product]="product"
+        [displayMode]="(uiService.displayMode$ | async)">
+      </app-products-list-item>
+    </div>
+  </div>
+
+  <!-- Pagination-->
+  <nav *ngIf="pager.pages && pager.pages.length && (uiService.displayMode$ | async) ==='grid'" class="pagination">
+    <div class="column text-left hidden-xs-down">
+      <a class="btn btn-outline-secondary btn-sm" [ngClass]="{disabled:pager.currentPage === 1}"
+        (click)="setPage(pager.currentPage - 1)"><i class="icon-arrow-left"></i>&nbsp;Previous
+      </a>
+    </div>
+    <div class="column text-center">
+      <ul class="pages">
+        <li *ngFor="let page of pager.pages" [ngClass]="{active: pager.currentPage === page}">
+          <a (click)="setPage(page)">{{page}}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="column text-right hidden-xs-down">
+      <a class="btn btn-outline-secondary btn-sm" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"
+        (click)="setPage(pager.currentPage + 1)">Next&nbsp;
+        <i class="icon-arrow-right"></i>
+      </a>
+    </div>
+  </nav>
+</div>

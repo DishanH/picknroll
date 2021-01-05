@@ -190,7 +190,8 @@
   // Toolbar Dropdowns
   .toolbar-dropdown {
     @extend %sub-menu;
-    margin-top: 7px !important;
+    // margin-top: 7px !important;
+    margin-top: 1px !important; //D
     text-align: left;
   }
   .toolbar .account {
@@ -388,9 +389,13 @@
 }
 .search-results {
   position: absolute;
-  top: 84px;
-  left: -15px;
-  width: 100%;
+  // top: 84px;
+  top: 27px;
+  // left: -15px;
+  right: -23px;
+  // width: 100%;
+  width: 75%;
+  z-index: 2;
   background: #ffffff;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.05);
 
@@ -404,30 +409,37 @@
     list-style: none;
 
     li {
-      padding: 10px 40px;
+      // padding: 10px 40px;
+      padding: 5px;
     }
   }
 }
 .site-search {
   display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  transition: 0.3s;
+  // position: absolute;
+  // width: 100%;
+  // height: 100%;
+  // transition: 0.3s;
   background-color: $white-color;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 10;
+  // opacity: 0;
+  // visibility: hidden;
+  // z-index: 10;
   > input {
     display: block;
-    position: absolute;
-    width: 100%;
+    // position: absolute;
+    width: 70%;
     height: 100%;
+    float: right; //D
     padding: {
-      right: 120px;
-      left: 30px;
+      // right: 120px;
+      right: 15px;
+      left: 10px;
+      bottom: 5px;
+      // left: 30px;
     }
-    border: 0;
+    // border: 0;
+    border: 1px solid transparent;
+    border-bottom: 1px solid $gray-light;
     background-color: $white-color;
     color: $body-color;
     font-size: $font-size-base;
@@ -507,11 +519,11 @@
     z-index: 9010;
   }
   .toolbar {
-    position: absolute;
-    top: 0;
-    right: 30px;
+    // position: absolute;
+    position: relative;
+    // top: 0;
+    // right: 30px;
     // height: 100%;
-    height: 50%;
     z-index: 5;
     .inner {
       display: table;
@@ -520,18 +532,20 @@
     }
     // Tools
     .tools {
-      display: table-cell;
-      // vertical-align: middle;
-      vertical-align: top;
+      // display: table-cell;
+      vertical-align: middle;
+      // vertical-align: top;
+      float: right; //D
+      // padding-right: 12px;//D
       .search {
         display: inline-block;
         position: relative;
         width: $navbar-tools-size;
         height: $navbar-tools-size;
         // margin-left: 6px;
-        margin: 10px 5px; //D
+        // margin: 10px 5px; //D
         transition: background-color 0.35s;
-        // border: 1px solid $border-color;
+        border: 1px solid $border-color;
         border-radius: 50%;
         color: $navbar-tools-color;
         font-size: $tools-icon-size;
@@ -745,7 +759,8 @@
       color: $nav-link-active-color;
     }
   }
-  .toolbar {//to-do(Dishan) :navbar-ghost not going to work
+  .toolbar {
+    //to-do(Dishan) :navbar-ghost not going to work
     .account,
     .cart {
       border-color: rgba($white-color, 0.15);
@@ -806,13 +821,20 @@
   }
 }
 @media (max-width: $screen-sm) {
+  .site-branding {
+    width: 100%;
+  }
   .offcanvas-toggle {
     width: 56px;
   }
   .site-logo {
     // width: ($logo-width + 16);
-    width: ($logo-width + 40);
+    width: 83%;
     // padding-left: 16px;
-    left: 40px; //D
+    left: 0; //D
+  }
+  .site-logo img {
+    width: ($logo-width + 40);
+    margin: 0 auto;
   }
 }

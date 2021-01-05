@@ -1,2 +1,25 @@
-@import '~scss/helpers/variables';
-@import '~scss/helpers/mixins';
+@import "~scss/helpers/variables";
+@import "~scss/helpers/mixins";
+
+.site-header {
+  width: 50%;
+  position: absolute;
+  left: 50%;
+  height: 100%;
+  padding-right: 20px;
+  margin-bottom: 0;
+
+  .site-seach {
+    height: 60%;
+    width: 60%;
+    float: right;
+    align-items: center;
+  }
+  .site-navigation {
+    height: 40%;
+    float: right;
+  }
+  @media screen and (max-width: 860px) {
+    display: none;
+  }
+}

@@ -14,6 +14,7 @@ import { AccountComponent } from './account/account.component';
 import { ProductsListComponent } from './products/products-list/products-list.component';
 import { ProductDetailComponent } from './products/product-detail/product-detail.component';
 import { CompleteComponent } from './checkout/complete/complete.component';
+import { ProductSearchComponent } from './products/product-search/product-search.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: ':category/products', component: ProductsListComponent },
   // { path: ':products', component: ProductsListComponent },
   { path: 'products/:id', component: ProductDetailComponent },
+  { path: 'product-search', component: ProductSearchComponent },
   { path: 'cart', component: CartComponent },
   { path: 'admin/add', component: AddEditComponent, canActivate: [AdminGuard] },
   {
