@@ -71,7 +71,10 @@
 }
 
 // Sub Menu
-.sub-menu { @extend %sub-menu; }
+.sub-menu { @extend %sub-menu;
+  margin-top: 1px !important; //D
+  width: $sub-menu-width - 30; //D
+}
 .site-menu ul > li:hover {
 
   > .sub-menu {
