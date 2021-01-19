@@ -48,7 +48,7 @@ export class AddressComponent implements OnInit, OnDestroy {
       address2: new FormControl(null),
       zip: new FormControl(null, [
         Validators.required,
-        Validators.pattern(/^\d\d\d\d$/)
+        Validators.pattern('[0-9a-zA-Z]{6}')
       ]),
       city: new FormControl(null, Validators.required),
       email: new FormControl(
@@ -72,14 +72,14 @@ export class AddressComponent implements OnInit, OnDestroy {
     this.formAddress.setValue({
       firstname: 'Hans',
       lastname: 'Muster',
-      address1: 'Musterstrasse 13',
+      address1: 'Freeman terrace',
       address2: '',
-      zip: 1234,
-      city: 'Musterhausen',
-      email: 'hans.muster@muster.com',
+      zip: 'l5m6r2',
+      city: 'mississuga',
+      email: 'dishan@outlook.com',
       phone: '+41791234567',
       company: '',
-      country: 'Switzerland'
+      country: 'Canada'
     });
   }
 

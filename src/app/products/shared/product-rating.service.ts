@@ -11,6 +11,8 @@ import { FileUploadService } from './file-upload.service';
 import { ProductsUrl } from './productsUrl';
 import { Product } from '../../models/product.model';
 import { User } from '../../models/user.model';
+import { AngularFirestore, AngularFirestoreCollection,AngularFirestoreDocument } from "@angular/fire/firestore";
+
 
 @Injectable()
 export class ProductRatingService {
@@ -20,7 +22,8 @@ export class ProductRatingService {
   constructor(
     private messageService: MessageService,
     private angularFireDatabase: AngularFireDatabase,
-    public authService: AuthService
+    public authService: AuthService,
+    private fireStoreDb: AngularFirestore
   ) {
     this.authService.user.subscribe(user => this.user = user);
   }
@@ -50,13 +53,21 @@ export class ProductRatingService {
     const updates = this.constructRating(product, rating);
 
     return fromPromise(
-      this.angularFireDatabase
-        .object<Product>(url)
-        .update(updates)
-        .then(() => this.log(`Rated Product ${product.name} width: ${rating}`))
+
+      this.fireStoreDb.collection('products')
+      .doc(product.id.toString())
+      .update(updates)
+      .then(() => this.log(`Rated Product ${product.name} width: ${rating}`))
         .catch((error) => {
           this.handleError<any>(error);
         })
+      // this.angularFireDatabase
+      //   .object<Product>(url)
+      //   .update(updates)
+      //   .then(() => this.log(`Rated Product ${product.name} width: ${rating}`))
+      //   .catch((error) => {
+      //     this.handleError<any>(error);
+      //   })
     );
   }
 // pure helper functions start here

@@ -19,6 +19,7 @@ import { AngularFireModule } from "@angular/fire";
 import { AngularFireStorageModule } from "@angular/fire/storage";
 import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFirestoreModule } from "@angular/fire/firestore";
 
 // Components
 import { AppComponent } from './app.component';
@@ -38,6 +39,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     AngularFireDatabaseModule,
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
+    AngularFirestoreModule,
     HttpClientModule,
     SharedModule,
     ToastrModule.forRoot(),

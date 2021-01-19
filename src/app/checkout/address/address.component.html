@@ -37,7 +37,7 @@
       <div class="form-group" [ngClass]="{'has-danger': formAddress.get('zip').invalid && formAddress.get('zip').touched}">
         <label for="zip">Postal Code</label>
         <input class="form-control" type="text" name="zip" id="zip" formControlName="zip">
-        <div class="form-control-feedback" *ngIf="formAddress.get('zip').invalid && formAddress.get('zip').touched">Please enter your zip code!</div>
+        <div class="form-control-feedback" *ngIf="formAddress.get('zip').invalid && formAddress.get('zip').touched">Please enter valid postal code!</div>
       </div>
     </div>
     <div class="col-sm-6">
@@ -91,4 +91,5 @@
   </div>
 </form>
 
+<!-- <app-checkout-footer [buttons]="['backToCart', 'continue']"  (continue)="onContinue()" [continueEnabled]="false"></app-checkout-footer> -->
 <app-checkout-footer [buttons]="['backToCart', 'continue']"  (continue)="onContinue()" [continueEnabled]="formAddress.valid"></app-checkout-footer>

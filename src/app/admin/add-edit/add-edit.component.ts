@@ -222,9 +222,9 @@ export class AddEditComponent implements OnInit, OnDestroy {
 
   private categoriesFromObjectToString(categories: {}): string | null {
     // categories: { key: true, key: true} || {}
-    if (Object.keys(categories).length === 0) {
-      return 'example, category';
-    }
+    // if (Object.keys(categories).length === 0) {
+    //   return 'example, category';
+    // }
     return Object.keys(categories).reduce(
       (result, currentProduct, index, inputArray) => {
         if (index < inputArray.length - 1) {

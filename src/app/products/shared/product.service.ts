@@ -15,20 +15,27 @@ import { FileUploadService } from "./file-upload.service";
 import { MessageService } from "../../messages/message.service";
 import { ProductRatingService } from "./product-rating.service";
 
+import { AngularFirestore, AngularFirestoreCollection,AngularFirestoreDocument } from "@angular/fire/firestore";
+
 import { Product } from "../../models/product.model";
 import { ProductsUrl } from "./productsUrl";
+import { firestore } from "firebase";
 
 @Injectable()
 export class ProductService {
   private productsUrl = ProductsUrl.productsUrl;
+  private productCollectionRef :AngularFirestoreCollection<Product>;
 
   constructor(
     private messageService: MessageService,
     private db: AngularFireDatabase,
     public authService: AuthService,
     private uploadService: FileUploadService,
-    private productRatingService: ProductRatingService
-  ) {}
+    private productRatingService: ProductRatingService,
+    private fireStoreDb: AngularFirestore
+  ) {
+    this.productCollectionRef = this.fireStoreDb.collection("products");
+  }
 
   /** Log a ProductService message with the MessageService */
   private log(message: string) {
@@ -51,30 +58,38 @@ export class ProductService {
   }
 
   public getProducts(category: string = "all"): Observable<Product[]> {
-    return this.db
-      .list<Product>(
-        "products",
-        (ref) =>
-          category == "all"
-            ? ref.orderByChild("date")
-            : ref.orderByChild("categories/" + category).equalTo(true)
-        // : ref.orderByChild(`categories/${category}`).equalTo(true)
-      )
+    //   return this.db
+    //     .list<Product>(
+    //       "products",
+    //       (ref) =>
+    //         category == "all"
+    //           ? ref.orderByChild("date")
+    //           : ref.orderByChild("categories/" + category).equalTo(true)
+    //       // : ref.orderByChild(`categories/${category}`).equalTo(true)
+    //     )
+    //     .valueChanges()
+    //     .pipe(
+    //       map((arr) => arr.reverse()),
+    //       catchError(this.handleError<Product[]>(`getProducts`))
+    //     );
+    // }
+    // public getProducts(): Observable<Product[]> {
+    return this.fireStoreDb
+      .collection("products")
       .valueChanges()
       .pipe(
-        map((arr) => arr.reverse()),
+        map((arr) => <Product[]>(arr.reverse())),
         catchError(this.handleError<Product[]>(`getProducts`))
       );
+
+    // return this.db
+    //   .list<Product>("products", (ref) => ref.orderByChild("date"))
+    //   .valueChanges()
+    //   .pipe(
+    //     map((arr) => arr.reverse()),
+    //     catchError(this.handleError<Product[]>(`getProducts`))
+    //   );
   }
-  // public getProducts(): Observable<Product[]> {
-  //   return this.db
-  //     .list<Product>("products", (ref) => ref.orderByChild("date"))
-  //     .valueChanges()
-  //     .pipe(
-  //       map((arr) => arr.reverse()),
-  //       catchError(this.handleError<Product[]>(`getProducts`))
-  //     );
-  // }
 
   public getProductsQuery(
     byChild: string,
@@ -145,21 +160,19 @@ export class ProductService {
   }
 
   public getFeaturedProducts(): Observable<any[]> {
-    return this.db
-      .list<Product>("featured")
+    return this.fireStoreDb.collection<Product>("featured")
       .snapshotChanges()
       .pipe(
         switchMap(
           (actions) => {
             return observableCombineLatest(
-              actions.map((action) => this.getProduct(action.key))
+              actions.map((action) =>{return this.getProduct(action.payload.doc.id);})
             );
           },
           (actionsFromSource, resolvedProducts) => {
             resolvedProducts.map((product, i) => {
-              product["imageFeaturedUrl"] = actionsFromSource[
-                i
-              ].payload.val().imageFeaturedUrl;
+              //product["imageFeaturedUrl"] = actionsFromSource[i].payload.val().imageFeaturedUrl;
+              product["imageFeaturedUrl"] = actionsFromSource[i].payload.doc.data().imageFeaturedUrl;
               return product;
             });
             return resolvedProducts;
@@ -171,11 +184,12 @@ export class ProductService {
 
   public getProduct(id: any): Observable<Product | null> {
     const url = `${this.productsUrl}/${id}`;
-    return this.db
-      .object<Product>(url)
+    return this.fireStoreDb.doc<Product>(url)
+      //.doc<Product>(id)
       .valueChanges()
       .pipe(
         tap((result) => {
+          //console.log(result)
           if (result) {
             return of(result);
           } else {
@@ -185,6 +199,20 @@ export class ProductService {
         }),
         catchError(this.handleError<Product>(`getProduct id=${id}`))
       );
+    // return this.db
+    //   .object<Product>(url)
+    //   .valueChanges()
+    //   .pipe(
+    //     tap((result) => {
+    //       if (result) {
+    //         return of(result);
+    //       } else {
+    //         this.messageService.addError(`Found no Product with id=${id}`);
+    //         return of(null);
+    //       }
+    //     }),
+    //     catchError(this.handleError<Product>(`getProduct id=${id}`))
+    //   );
   }
 
   public updateProduct(data: { product: Product; files: FileList }) {
@@ -203,7 +231,11 @@ export class ProductService {
         return data;
       })
       .then((dataWithImagePath) => {
-        return this.db.object<Product>(url).update(data.product);
+        return this.fireStoreDb
+          .collection("products")
+          .doc(data.product.id.toString())
+          .set(data.product);
+        //return this.db.object<Product>(url).update(data.product);
       })
       .then((response) => {
         this.log(`Updated Product ${data.product.name}`);
@@ -217,17 +249,20 @@ export class ProductService {
   }
 
   private updateProductWithoutNewImage(product: Product, url: string) {
-    const dbOperation = this.db
-      .object<Product>(url)
-      .update(product)
-      .then((response) => {
-        this.log(`Updated Product ${product.name}`);
-        return product;
-      })
-      .catch((error) => {
-        this.handleError(error);
-        return error;
-      });
+    const dbOperation =
+      //this.db.object<Product>(url).update(product)
+      this.fireStoreDb
+        .collection("products")
+        .doc(product.id.toString())
+        .set(product)
+        .then((response) => {
+          this.log(`Updated Product ${product.name}`);
+          return product;
+        })
+        .catch((error) => {
+          this.handleError(error);
+          return error;
+        });
     return fromPromise(dbOperation);
   }
 
@@ -239,11 +274,15 @@ export class ProductService {
           data.product.imageURLs.push(await task.ref.getDownloadURL());
           data.product.imageRefs.push(task.ref.fullPath);
 
-          console.log(data);
+          //console.log(data);
+          //firestore test
+          return this.fireStoreDb.collection("products")
+          .doc(data.product.id.toString())
+          .set(data.product);
 
-          return this.db
-            .list("products")
-            .set(data.product.id.toString(), data.product);
+          //return this.db
+          //  .list("products")
+          //  .set(data.product.id.toString(), data.product);
         },
         (error) => error
       )
