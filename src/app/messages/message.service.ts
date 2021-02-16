@@ -13,12 +13,13 @@ export class MessageService {
   constructor(private toastr: ToastrService) {}
 
   public add(message: string): void {
-    this.messages.push(message);
-    this.toastr.success(message, 'Message:', this.toastrConfig);
+    //hide all Dishan
+    //this.messages.push(message);
+    //this.toastr.success(message, 'Message:', this.toastrConfig);
   }
 
   public addError(message: string): void {
-    this.toastr.error(message, 'Message:', this.toastrConfig);
+    //this.toastr.error(message, 'Message:', this.toastrConfig);
   }
 
   public clear(): void {

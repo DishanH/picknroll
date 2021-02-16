@@ -8,8 +8,10 @@
         <div class="form-group row">
           <label class="col-3 col-form-label" for="name">Product Name</label>
           <div class="col-9">
-            <input class="form-control form-control-square form-control-sm" formControlName="name" type="text" id="name" value="">
-            <div *ngIf="!productForm.get('name').valid && productForm.get('name').touched" class="form-control-feedback">
+            <input [(ngModel)]="nameForVariant" class="form-control form-control-square form-control-sm" formControlName="name" type="text" id="name"
+              value="">
+            <div *ngIf="!productForm.get('name').valid && productForm.get('name').touched"
+              class="form-control-feedback">
               Enter a name for your product.
             </div>
           </div>
@@ -18,7 +20,8 @@
         <div class="form-group row">
           <label class="col-3 col-form-label" for="id">Id</label>
           <div class="col-9">
-            <input class="form-control form-control-square form-control-sm" formControlName="id" type="number" id="id" value="0">
+            <input class="form-control form-control-square form-control-sm" formControlName="id" type="number" id="id"
+              value="0">
             <div *ngIf="!productForm.get('id').valid && productForm.get('id').touched" class="form-control-feedback">
               Enter a number as id for your product.
             </div>
@@ -29,29 +32,64 @@
           <label class="col-3 col-form-label" for="date-input">Creation Date</label>
           <div class="col-9">
             <input class="form-control" type="date" id="date-input" formControlName="date" value="">
-            <div *ngIf="!productForm.get('date').valid && productForm.get('date').touched" class="form-control-feedback">
+            <div *ngIf="!productForm.get('date').valid && productForm.get('date').touched"
+              class="form-control-feedback">
               Enter a date for your product.
             </div>
           </div>
         </div>
 
+        <!-- <div class="form-group row">
+          <label class="col-3 col-form-label" for="categories-dropdown">Category</label>
+          <div class="col-9">
+            <select class="form-control form-control-square form-control-sm" id="categories-dropdown">
+                <option selected>Choose catgory...</option>
+                <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
+              </select>
+             <div *ngIf="!productForm.get('categories-dropdown').valid && productForm.get('categories-dropdown').touched" class="form-control-feedback">
+              Select a category for your product.
+            </div>
+          </div>
+        </div> -->
+        <!--
         <div class="form-group row">
           <label class="col-3 col-form-label" for="categories">Categories (commma seperated)</label>
           <div class="col-9">
-            <input class="form-control form-control-square form-control-sm" placeholder="example, category" formControlName="categories" type="text" id="categories"
-              value="">
-            <div *ngIf="!productForm.get('categories').valid && productForm.get('categories').touched" class="form-control-feedback">
+            <input class="form-control form-control-square form-control-sm" placeholder="example, category"
+              formControlName="categories" type="text" id="categories" value="">
+            <div *ngIf="!productForm.get('categories').valid && productForm.get('categories').touched"
+              class="form-control-feedback">
               Enter at least one category for your product.
             </div>
+          </div>
+        </div> -->
+
+        <div class="form-group row">
+          <label class="col-3 col-form-label" for="categories">Categories</label>
+          <div class="col-9" *ngIf="productCategories?.length > 0">
+            <ng-multiselect-dropdown id="categories" [formControl]="productForm.controls['categories']"
+              [placeholder]="'Categories'" [settings]="dropdownSettings" [data]="productCategories"
+              (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"></ng-multiselect-dropdown>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-3 col-form-label" for="groupid">Group Id</label>
+          <div class="col-9">
+            <input class="form-control form-control-square form-control-sm"
+              placeholder="items that are variants of the same product" formControlName="groupid" type="text"
+              id="groupid" value="">
           </div>
         </div>
 
         <div class="form-group row">
           <label class="col-3 col-form-label" for="description">Product description</label>
           <div class="col-9">
-            <textarea class="form-control form-control-square form-control-sm" formControlName="description" id="description" rows="5">
+            <textarea class="form-control form-control-square form-control-sm" formControlName="description"
+              id="description" rows="5">
             </textarea>
-            <div *ngIf="!productForm.get('description').valid && productForm.get('description').touched" class="form-control-feedback">
+            <div *ngIf="!productForm.get('description').valid && productForm.get('description').touched"
+              class="form-control-feedback">
               Enter a description for your product.
             </div>
           </div>
@@ -70,8 +108,10 @@
         <div class="form-group row">
           <label class="col-3 col-form-label" for="price">Actual Price(Display Price)</label>
           <div class="col-9">
-            <input class="form-control form-control-square form-control-sm" formControlName="price" type="number" id="price" value="">
-            <div *ngIf="!productForm.get('price').valid && productForm.get('price').touched" class="form-control-feedback">
+            <input [(ngModel)]="priceForVariant" class="form-control form-control-square form-control-sm" formControlName="price" type="number"
+              id="price" value="">
+            <div *ngIf="!productForm.get('price').valid && productForm.get('price').touched"
+              class="form-control-feedback">
               Enter a price for your product.
             </div>
           </div>
@@ -80,25 +120,105 @@
         <div class="form-group row">
           <label class="col-3 col-form-label" for="price-normal">Original Price</label>
           <div class="col-9">
-            <input class="form-control form-control-square form-control-sm" formControlName="priceNormal" type="number" id="price-normal"
-              value="0">
-            <div *ngIf="!productForm.get('priceNormal').valid && productForm.get('priceNormal').touched" class="form-control-feedback">
+            <input [(ngModel)]="priceNormalForVariant" class="form-control form-control-square form-control-sm" formControlName="priceNormal" type="number"
+              id="price-normal" value="0">
+            <div *ngIf="!productForm.get('priceNormal').valid && productForm.get('priceNormal').touched"
+              class="form-control-feedback">
               Enter a base price for your product.
             </div>
           </div>
         </div>
 
+        <!-- <div class="form-group row">
+          <label class="col-3 col-form-label" for="price-normal">Varients</label>
+          <div class="col-9 align-middle" style="align-self: center;">
+            <input type="checkbox" formControlName="productVariants" />
+          </div>
+        </div> -->
+        <div class="form-group row mt-5">
+          <div class="col-12">Enter product variants here.</div>
+        </div>
+        <div class="form-group row mt-5">
+          <label class="col-3 col-form-label" for="groupid">Header</label>
+          <div class="col-9">
+            <input class="form-control form-control-square form-control-sm"
+              placeholder="enter value for variant header (Amount, Weight, Size)" formControlName="variantHeader" type="text"
+              id="variant-header" value="">
+          </div>
+        </div>
+        <div class="form-group row">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Variant Name</th>
+                <th scope="col">Supply Price</th>
+                <th scope="col">Retail Price</th>
+                <th scope="col">Enabled</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="align-middle">1</th>
+                <td><input class="form-control form-control-square form-control-sm" formControlName="variantName1"
+                    id="variant-name1" type="text" [value]="nameForVariant"></td>
+                <td><input class="form-control form-control-square form-control-sm"
+                    formControlName="variantPrice1" id="variant-price1" type="number" [value]="priceForVariant"></td>
+                <td><input class="form-control form-control-square form-control-sm"
+                    formControlName="variantPriceNormal1" id="variant-price-normal1" type="number"
+                    [value]="priceNormalForVariant"></td>
+                <td class="align-middle text-center"></td>
+              </tr>
+              <tr>
+                <th scope="row" class="align-middle">2</th>
+                <td><input class="form-control form-control-square form-control-sm" formControlName="variantName2"
+                    id="variant-name2" type="text" value=""></td>
+                <td><input class="form-control form-control-square form-control-sm" formControlName="variantPrice2"
+                    id="variant-price2" type="number" value="0"></td>
+                <td><input class="form-control form-control-square form-control-sm"
+                    formControlName="variantPriceNormal2" id="variant-price-normal2" type="number" value="0"></td>
+                <td class="align-middle text-center"><input type="checkbox" formControlName="variantEnabled2"
+                    id="variant-enabled2"></td>
+              </tr>
+              <tr>
+                <th scope="row" class="align-middle">3</th>
+                <td><input class="form-control form-control-square form-control-sm" formControlName="variantName3"
+                    id="variant-name3" type="text" value=""></td>
+                <td><input class="form-control form-control-square form-control-sm" formControlName="variantPrice3"
+                    id="variant-price3" type="number" value="0"></td>
+                <td><input class="form-control form-control-square form-control-sm"
+                    formControlName="variantPriceNormal3" id="variant-price-normal3" type="number" value="0"></td>
+                <td class="align-middle text-center"><input type="checkbox" formControlName="variantEnabled3"
+                    id="variant-enabled3"></td>
+              </tr>
+              <tr>
+                <th scope="row" class="align-middle">4</th>
+                <td><input class="form-control form-control-square form-control-sm" formControlName="variantName4"
+                    id="variant-name4" type="text" value=""></td>
+                <td><input class="form-control form-control-square form-control-sm" formControlName="variantPrice4"
+                    id="variant-price4" type="number" value="0"></td>
+                <td><input class="form-control form-control-square form-control-sm"
+                    formControlName="variantPriceNormal4" id="variant-price-normal4" type="number" value="0"></td>
+                <td class="align-middle text-center"><input type="checkbox" formControlName="variantEnabled4"
+                    id="variant-enabled4"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
         <div *ngIf="fileUploadService.percentage$ | async as pct" class="progress margin-bottom-1x">
-          <div class="progress-bar" role="progressbar" [style.width.%]="pct" aria-valuenow="pct | number: '1.0-0'" aria-valuemin="0"
-            aria-valuemax="100">{{pct | number:'1.0-0'}}%</div>
+          <div class="progress-bar" role="progressbar" [style.width.%]="pct" aria-valuenow="pct | number: '1.0-0'"
+            aria-valuemin="0" aria-valuemax="100">{{pct | number:'1.0-0'}}%</div>
         </div>
 
         <div class="row mb-5">
           <div class="col text-right">
-            <button [disabled]="(mode === 'add')" class="btn btn-danger" type="button" (click)="onDelete()">Delete Product</button>
+            <button [disabled]="(mode === 'add')" class="btn btn-danger" type="button" (click)="onDelete()">Delete
+              Product</button>
             <button [disabled]="productForm.invalid" class="btn btn-primary" type="submit">Save Changes</button>
           </div>
         </div>
+
 
       </form>
 

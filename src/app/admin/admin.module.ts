@@ -3,6 +3,7 @@ import { AddEditComponent } from './add-edit/add-edit.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductsModule } from '../products/products.module';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
     declarations: [
@@ -12,7 +13,8 @@ import { ProductsModule } from '../products/products.module';
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
-        ProductsModule
+        ProductsModule,
+        NgMultiSelectDropDownModule.forRoot()
     ],
     exports: [
         SharedModule,

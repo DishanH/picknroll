@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 // import { AngularFireDatabase } from 'angularfire2/database';
-import { AngularFireDatabase } from "@angular/fire/database";
+// import { AngularFireDatabase } from "@angular/fire/database";
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -24,7 +24,7 @@ export class AuthService {
 
   constructor(
     private afAuth: AngularFireAuth,
-    private db: AngularFireDatabase,
+    // private db: AngularFireDatabase,
     private fireStoreDb: AngularFirestore,
     private messageService: MessageService,
     private router: Router

@@ -5,6 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { ProductsListComponent } from './products-list/products-list.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductRelatedComponent } from './product-related/product-related.component';
 import { ProductsListItemComponent } from './products-list-item/products-list-item.component';
 import { RatingStarsComponent } from './shared/rating-stars/rating-stars.component';
 
@@ -22,7 +23,8 @@ import { ProductSearchComponent } from './product-search/product-search.componen
     ProductsListItemComponent,
     SortPipe,
     RatingStarsComponent,
-    ProductSearchComponent
+    ProductSearchComponent,
+    ProductRelatedComponent
   ],
   imports: [SharedModule],
   exports: [

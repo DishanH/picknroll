@@ -28,6 +28,7 @@
     "core-js": "^3.3.2",
     "firebase": "^7.14.2",
     "modernizr": "^3.7.1",
+    "ng-multiselect-dropdown": "^0.2.14",
     "ngx-siema": "^2.0.1",
     "ngx-toastr": "^11.1.2",
     "node-pre-gyp": "^0.16.0",

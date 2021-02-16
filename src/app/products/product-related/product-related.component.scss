@@ -1,0 +1,16 @@
+@import "~scss/helpers/variables";
+@import "~scss/helpers/mixins";
+
+.related-product {
+  width: 49%;
+  border-width: 2px !important;
+  a {
+    text-decoration: none;
+  }
+  &:hover {
+    border: 2px solid $brand-primary;
+  }
+  img {
+    margin: 6px;
+  }
+}

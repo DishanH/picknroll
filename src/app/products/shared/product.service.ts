@@ -6,35 +6,49 @@ import {
 } from "rxjs";
 import { Injectable } from "@angular/core";
 
-import { catchError, tap, switchMap, map } from "rxjs/operators";
+import {
+  catchError,
+  tap,
+  switchMap,
+  map,
+  flatMap,
+  mergeMap,
+} from "rxjs/operators";
 
 // import { AngularFireDatabase } from 'angularfire2/database';
-import { AngularFireDatabase } from "@angular/fire/database";
+//  import { AngularFireDatabase } from "@angular/fire/database";
 import { AuthService } from "../../account/shared/auth.service";
 import { FileUploadService } from "./file-upload.service";
 import { MessageService } from "../../messages/message.service";
 import { ProductRatingService } from "./product-rating.service";
 
-import { AngularFirestore, AngularFirestoreCollection,AngularFirestoreDocument } from "@angular/fire/firestore";
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+  AngularFirestoreDocument,
+} from "@angular/fire/firestore";
 
 import { Product } from "../../models/product.model";
 import { ProductsUrl } from "./productsUrl";
 import { firestore } from "firebase";
+import { Category } from "../../models/category.model";
 
 @Injectable()
 export class ProductService {
   private productsUrl = ProductsUrl.productsUrl;
-  private productCollectionRef :AngularFirestoreCollection<Product>;
+  private productCollectionRef: AngularFirestoreCollection<Product>;
+  private productCategoriesCollectionRef: AngularFirestoreCollection<Category>;
 
   constructor(
     private messageService: MessageService,
-    private db: AngularFireDatabase,
+    // private db: AngularFireDatabase,
     public authService: AuthService,
     private uploadService: FileUploadService,
     private productRatingService: ProductRatingService,
     private fireStoreDb: AngularFirestore
   ) {
     this.productCollectionRef = this.fireStoreDb.collection("products");
+    this.productCategoriesCollectionRef = this.fireStoreDb.collection("categories");
   }
 
   /** Log a ProductService message with the MessageService */
@@ -57,31 +71,24 @@ export class ProductService {
     };
   }
 
-  public getProducts(category: string = "all"): Observable<Product[]> {
-    //   return this.db
-    //     .list<Product>(
-    //       "products",
-    //       (ref) =>
-    //         category == "all"
-    //           ? ref.orderByChild("date")
-    //           : ref.orderByChild("categories/" + category).equalTo(true)
-    //       // : ref.orderByChild(`categories/${category}`).equalTo(true)
-    //     )
-    //     .valueChanges()
-    //     .pipe(
-    //       map((arr) => arr.reverse()),
-    //       catchError(this.handleError<Product[]>(`getProducts`))
-    //     );
-    // }
-    // public getProducts(): Observable<Product[]> {
-    return this.fireStoreDb
-      .collection("products")
+
+  public getCategories(): Observable<Category[]> {
+    return this.productCategoriesCollectionRef
       .valueChanges()
       .pipe(
-        map((arr) => <Product[]>(arr.reverse())),
+        map((arr) => <Category[]>arr.reverse()),
+        catchError(this.handleError<Category[]>(`getCategories`))
+      );
+  }
+
+  public getProducts(category: string = "all"): Observable<Product[]> {
+    return this.fireStoreDb
+      .collection("products",(queryfn) => queryfn.where("category","array-contains-any",[category]))
+      .valueChanges()
+      .pipe(
+        map((arr) => <Product[]>arr.reverse()),
         catchError(this.handleError<Product[]>(`getProducts`))
       );
-
     // return this.db
     //   .list<Product>("products", (ref) => ref.orderByChild("date"))
     //   .valueChanges()
@@ -96,31 +103,36 @@ export class ProductService {
     equalTo: string | boolean,
     limitToFirst: number
   ): Observable<Product[]> {
-    return this.db
-      .list<Product>("products", (ref) =>
-        ref.orderByChild(byChild).equalTo(equalTo).limitToFirst(limitToFirst)
-      )
+    return this.fireStoreDb
+    .collection<Product>("products", (ref) =>
+    ref.orderBy(byChild).limit(limitToFirst)
+    )
+      //.list<Product>("products", (ref) =>
+      //  ref.orderByChild(byChild).equalTo(equalTo).limitToFirst(limitToFirst)
+      //)
       .valueChanges()
       .pipe(catchError(this.handleError<Product[]>(`getProductsQuery`)));
   }
 
   public findProducts(term): Observable<any> {
-    console.log(term);
-    return this.db
-      .list<Product>("products", (ref) =>
+    return this.fireStoreDb
+      .collection<Product>("products", (ref) =>
         ref
-          .orderByChild("name")
+          .orderBy("name")
           .startAt(term)
           .endAt(term + "\uf8ff")
+          // .orderByChild("name")
+          // .startAt(term)
+          // .endAt(term + "\uf8ff")
       )
       .valueChanges()
       .pipe(catchError(this.handleError<Product[]>(`getProductsQuery`)));
   }
 
   public getProductsByDate(limitToLast: number): Observable<Product[]> {
-    return this.db
-      .list<Product>("products", (ref) =>
-        ref.orderByChild("date").limitToLast(limitToLast)
+    return this.fireStoreDb
+      .collection<Product>("products", (ref) =>
+        ref.orderBy("date").limitToLast(limitToLast)
       )
       .valueChanges()
       .pipe(
@@ -130,9 +142,9 @@ export class ProductService {
   }
 
   public getProductsByRating(limitToLast: number): Observable<Product[]> {
-    return this.db
-      .list<Product>("products", (ref) =>
-        ref.orderByChild("currentRating").limitToLast(limitToLast)
+    return this.fireStoreDb
+      .collection<Product>("products", (ref) =>
+        ref.orderBy("currentRating").limitToLast(limitToLast)
       )
       .valueChanges()
       .pipe(
@@ -145,11 +157,11 @@ export class ProductService {
     category: string,
     limitToLast: number
   ): Observable<Product[]> {
-    return this.db
-      .list<Product>("products", (ref) =>
+    return this.fireStoreDb
+      .collection<Product>("products", (ref) =>
         ref
-          .orderByChild(`categories/${category}`)
-          .equalTo(true)
+          .orderBy(`categories/${category}`)
+          //.equalTo(true)
           .limitToLast(limitToLast)
       )
       .valueChanges()
@@ -160,19 +172,25 @@ export class ProductService {
   }
 
   public getFeaturedProducts(): Observable<any[]> {
-    return this.fireStoreDb.collection<Product>("featured")
+    return this.fireStoreDb
+      .collection<Product>("featured")
       .snapshotChanges()
       .pipe(
         switchMap(
           (actions) => {
             return observableCombineLatest(
-              actions.map((action) =>{return this.getProduct(action.payload.doc.id);})
+              actions.map((action) => {
+                var product$ = this.getProduct(action.payload.doc.id);
+                return product$;
+              })
             );
           },
           (actionsFromSource, resolvedProducts) => {
             resolvedProducts.map((product, i) => {
               //product["imageFeaturedUrl"] = actionsFromSource[i].payload.val().imageFeaturedUrl;
-              product["imageFeaturedUrl"] = actionsFromSource[i].payload.doc.data().imageFeaturedUrl;
+              product["imageFeaturedUrl"] = actionsFromSource[
+                i
+              ].payload.doc.data().imageFeaturedUrl;
               return product;
             });
             return resolvedProducts;
@@ -181,24 +199,48 @@ export class ProductService {
         catchError(this.handleError<Product[]>(`getFeaturedProducts`))
       );
   }
+  public getRelatedProducts(groupid: string): Observable<Product[]> {
+    var products = this.fireStoreDb.collection("products", (queryFn) => {
+      return queryFn.where("groupid", "==", groupid);
+    });
+    return products.valueChanges().pipe(
+      map((arr) => <Product[]>arr),
+      catchError(this.handleError<Product[]>(`getRelatedProducts`))
+    );
+  }
 
   public getProduct(id: any): Observable<Product | null> {
     const url = `${this.productsUrl}/${id}`;
-    return this.fireStoreDb.doc<Product>(url)
-      //.doc<Product>(id)
-      .valueChanges()
-      .pipe(
-        tap((result) => {
-          //console.log(result)
-          if (result) {
-            return of(result);
-          } else {
-            this.messageService.addError(`Found no Product with id=${id}`);
-            return of(null);
-          }
-        }),
-        catchError(this.handleError<Product>(`getProduct id=${id}`))
-      );
+    return (
+      this.fireStoreDb
+        .doc<Product>(url)
+        //.doc<Product>(id)
+        .valueChanges()
+        .pipe(
+          tap((result) => {
+            //console.log(result)
+            if (result) {
+              return of(result);
+            } else {
+              this.messageService.addError(`Found no Product with id=${id}`);
+              return of(null);
+            }
+          }),
+          mergeMap((result) => {
+            if (result && result?.groupid) {
+              return this.getRelatedProducts(result.groupid).pipe(
+                map((res2) => {
+                  result.relatedProducts = res2;
+                  return result;
+                })
+              );
+            } else {
+              return of(result);
+            }
+          }),
+          catchError(this.handleError<Product>(`getProduct id=${id}`))
+        )
+    );
     // return this.db
     //   .object<Product>(url)
     //   .valueChanges()
@@ -276,9 +318,10 @@ export class ProductService {
 
           //console.log(data);
           //firestore test
-          return this.fireStoreDb.collection("products")
-          .doc(data.product.id.toString())
-          .set(data.product);
+          return this.fireStoreDb
+            .collection("products")
+            .doc(data.product.id.toString())
+            .set(data.product);
 
           //return this.db
           //  .list("products")
@@ -305,9 +348,12 @@ export class ProductService {
 
     this.uploadService.deleteFile(product.imageRefs);
 
-    return this.db
-      .object<Product>(url)
-      .remove()
+    return this.fireStoreDb
+      .collection("products")
+      .doc(`${product.id}`)
+      .delete()
+      //.object<Product>(url)
+      //.remove()
       .then(() => this.log("success deleting" + product.name))
       .catch((error) => {
         this.messageService.addError("Delete failed " + product.name);

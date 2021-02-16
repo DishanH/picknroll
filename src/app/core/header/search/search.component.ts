@@ -38,7 +38,7 @@ export class SearchComponent implements OnInit,OnDestroy {
   index: SearchIndex;
 
   ALGOIA_APP_ID = "SM1DRLA1F9";
-  ALGOIA_ADMIN_KEY = "24e3f1697200e6fd3e6f55cb29bd030c";
+  ALGOIA_ADMIN_KEY = "24e3f1697200e6fd3e6f55cb29bd030c";//move to env file 'expose in git'
   ALGOIA_INDEX_NAME = "Products";
 
   constructor(private productService: ProductService) {
@@ -64,7 +64,7 @@ export class SearchComponent implements OnInit,OnDestroy {
     .pipe(
       debounceTime(400),
       distinctUntilChanged(),
-      filter((term) => term.length > 3),
+      filter((term) => term.length > 2),//3
       switchMap((term) => this.search(term))
     )
     .subscribe((results :Product[]) => {

@@ -1,26 +1,35 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Params } from '@angular/router';
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Location } from "@angular/common";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Params } from "@angular/router";
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
-import { AuthService } from '../../account/shared/auth.service';
-import { CartService } from '../../cart/shared/cart.service';
-import { CartItem } from '../../models/cart-item.model';
-import { ProductsCacheService } from '../shared/products-cache.service';
-import { ProductRatingService } from '../shared/product-rating.service';
-import { ProductService } from '../shared/product.service';
+import { AuthService } from "../../account/shared/auth.service";
+import { CartService } from "../../cart/shared/cart.service";
+import { CartItem } from "../../models/cart-item.model";
+import { ProductsCacheService } from "../shared/products-cache.service";
+import { ProductRatingService } from "../shared/product-rating.service";
+import { ProductService } from "../shared/product.service";
 
-import { Product } from '../../models/product.model';
-import { User } from '../../models/user.model';
+import { Product } from "../../models/product.model";
+import { User } from "../../models/user.model";
+
+
+export class ProductVariant {
+  constructor(
+    public id : number = 0,
+    public name: string = ''
+  ){}
+};
 
 @Component({
-  selector: 'app-product-detail',
-  templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.scss']
+  selector: "app-product-detail",
+  templateUrl: "./product-detail.component.html",
+  styleUrls: ["./product-detail.component.scss"],
 })
+
 export class ProductDetailComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject();
   @Input() public product: Product;
@@ -37,6 +46,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   public ratingCount: number;
   public ratingValues: number[];
   public selectedRating: any;
+
+  public productVariants: ProductVariant[] = [];
+
+  public selectedVariant:number = 1;
 
   constructor(
     private router: Router,
@@ -70,7 +83,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   private getProduct(): void {
     this.productLoading = true;
 
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = +this.route.snapshot.paramMap.get("id");
 
     this.productService
       .getProduct(id)
@@ -81,7 +94,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
           this.setupProduct();
           this.productLoading = false;
         } else {
-          this.router.navigate(['/404-product-not-found']);
+          this.router.navigate(["/404-product-not-found"]);
         }
       });
   }
@@ -110,6 +123,14 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       });
   }
 
+  public onVariant() {
+    //const rating = parseInt(this.selectedRating, 10);
+    if(this.selectedVariant > 0){
+      this.product.price = this.product[`variantPriceNormal${this.selectedVariant}`];
+      this.product.priceNormal = this.product[`variantPrice${this.selectedVariant}`];
+    }
+  }
+
   public onImageLoad(e: any) {
     this.imagesLoaded.push(e.target.src);
   }
@@ -118,22 +139,49 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     if (this.product) {
       this.checkCategories();
       this.checkRatings();
+      this.ProductVariants();
       this.activeImageUrl = this.product.imageURLs[0];
       this.activeImageIndex = 0;
     }
   }
 
   private checkCategories() {
-    const categories = Object.keys(this.product.categories).map(
-      (category, index, inputArray) => {
-        category = index < inputArray.length - 1 ? category + ',' : category;
-        return category;
-      }
-    );
-    this.product.categories =
-      categories.length >= 1 && !Array.isArray(this.product.categories)
-        ? categories
-        : [];
+    // const categories = Object.keys(this.product.categories).map(
+    //   (category, index, inputArray) => {
+    //     category = index < inputArray.length - 1 ? category + "," : category;
+    //     return category;
+    //   }
+    // );
+    // this.product.categories =
+    //   categories.length >= 1 && !Array.isArray(this.product.categories)
+    //     ? categories
+    //     : [];
+  }
+
+  // private loadRelatedProducts() {
+  //   //to-do:optimize
+  //   let groupid = this.product.groupid;
+  //   if (groupid?.length > 0) {
+  //     this.productService
+  //       .getRelatedProducts(groupid)
+  //       .pipe(takeUntil(this.unsubscribe$))
+  //       .subscribe((products) => {
+  //         this.relatedProducts = <Product[]>products;
+  //         console.log(products);
+  //       });
+  //   }
+  // }
+
+  private ProductVariants(){
+    if(this.product.variantsAvailable){
+        this.productVariants.push(new ProductVariant(this.product.variantId1, this.product.variantName1))
+      if(this.product.variantEnabled2)
+        this.productVariants.push(new ProductVariant(this.product.variantId2, this.product.variantName2))
+      if(this.product.variantEnabled3)
+        this.productVariants.push(new ProductVariant(this.product.variantId3, this.product.variantName3))
+      if(this.product.variantEnabled4)
+        this.productVariants.push(new ProductVariant(this.product.variantId4, this.product.variantName4))
+    }
   }
 
   private checkRatings() {
