@@ -51,8 +51,6 @@ export class OrderService {
       ...this.constructOrderMetaData(order),
       total,
     };
-
-    console.log(orderWithMetaData);
     var orderCollection = this.fireStoreDb
       .collection("users")
       .doc(user)
@@ -76,6 +74,39 @@ export class OrderService {
 
     // const databaseOperation = this.store
     //   .list(`users/${user}/orders`)
+    //   .push(orderWithMetaData)
+    //   .then((response) => response, (error) => error);
+
+    return fromPromise(databaseOperation);
+  }
+  public addAnonymousOrder(order: Order, total: number) {
+    var orderItems = order.items;
+    order.items = null;
+    const orderWithMetaData = {
+      ...order,
+      ...this.constructOrderMetaData(order),
+      total,
+    };
+
+    var orderCollection = this.fireStoreDb.collection("orders");
+
+    const databaseOperation =orderCollection
+      .doc(orderWithMetaData.number)
+      .set({ ...orderWithMetaData })
+      .then(
+        (response) => {
+          this.addOrderItems(
+            orderCollection,
+            orderWithMetaData.number,
+            orderItems
+          );
+          return response;
+        },
+        (error) => error
+      );
+
+    // const databaseOperation = this.store
+    //   .list('orders')
     //   .push(orderWithMetaData)
     //   .then((response) => response, (error) => error);
 
@@ -105,30 +136,6 @@ export class OrderService {
           }
         );
     });
-  }
-
-  public addAnonymousOrder(order: Order, total: number) {
-    const orderWithMetaData = {
-      ...order,
-      ...this.constructOrderMetaData(order),
-      total,
-    };
-
-    const databaseOperation = this.fireStoreDb
-      .collection("orders")
-      .doc(orderWithMetaData.number)
-      .set({ ...orderWithMetaData })
-      .then(
-        (response) => response,
-        (error) => error
-      );
-
-    // const databaseOperation = this.store
-    //   .list('orders')
-    //   .push(orderWithMetaData)
-    //   .then((response) => response, (error) => error);
-
-    return fromPromise(databaseOperation);
   }
 
   private constructOrderMetaData(order: Order) {

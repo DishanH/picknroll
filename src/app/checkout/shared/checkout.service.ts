@@ -2,6 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Order } from '../../models/order.model';
 import { Customer } from '../../models/customer.model';
 import { CartItem } from '../../models/cart-item.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class CheckoutService {
@@ -9,6 +10,7 @@ export class CheckoutService {
   public orderInProgressChanged: EventEmitter<Order> = new EventEmitter<Order>();
   public stepChanged: EventEmitter<number> = new EventEmitter<number>();
   public activeStep: number;
+  public shippingFee$: BehaviorSubject<number> = new BehaviorSubject(0);
 
   constructor() {
     this.orderInProgress = new Order(new Customer());
@@ -39,8 +41,10 @@ export class CheckoutService {
     this.orderInProgressChanged.emit(this.orderInProgress);
   }
 
-  public setShippingMethod(shippingMethod: string) {
+  public setShippingMethod(shippingMethod: string, shippingFee: number) {
     this.orderInProgress.shippingMethod = shippingMethod;
+    this.orderInProgress.shippingFee = shippingFee;
+    this.shippingFee$.next(shippingFee);
     this.orderInProgressChanged.emit(this.orderInProgress);
   }
 

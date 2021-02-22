@@ -1,1 +1,2 @@
-<del *ngIf="product.price < product.priceNormal" class="text-muted text-normal">{{product.priceNormal | currency }}</del>{{product.price | currency }}
+<!-- <del *ngIf="product.price < product.priceNormal" class="text-muted text-normal">{{product.priceNormal | currency }}</del>{{product.price | currency }} -->
+<del *ngIf="price < priceNormal" class="text-muted text-normal">{{priceNormal | currency:'CAD' }}</del>{{price | currency:'CAD' }}

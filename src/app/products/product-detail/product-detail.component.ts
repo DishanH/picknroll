@@ -106,7 +106,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   public onAddToCart() {
-    this.cartService.addItem(new CartItem(this.product, this.selectedQuantity));
+    this.cartService.addItem(new CartItem(this.product, this.selectedVariant, this.selectedQuantity));
   }
 
   public onSelectQuantity(event) {
@@ -125,10 +125,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   public onVariant() {
     //const rating = parseInt(this.selectedRating, 10);
-    if(this.selectedVariant > 0){
-      this.product.price = this.product[`variantPriceNormal${this.selectedVariant}`];
-      this.product.priceNormal = this.product[`variantPrice${this.selectedVariant}`];
-    }
+    // if(this.selectedVariant > 0){
+    //   this.product.price = this.product[`variantPriceNormal${this.selectedVariant}`];
+    //   this.product.priceNormal = this.product[`variantPrice${this.selectedVariant}`];
+    // }
   }
 
   public onImageLoad(e: any) {

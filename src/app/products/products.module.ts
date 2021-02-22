@@ -15,6 +15,7 @@ import { ProductRatingService } from './shared/product-rating.service';
 
 import { SortPipe } from './shared/sort.pipe';
 import { ProductSearchComponent } from './product-search/product-search.component';
+import { ProductSearchService } from './shared/product-search.service';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,6 @@ import { ProductSearchComponent } from './product-search/product-search.componen
     SortPipe,
     RatingStarsComponent
   ],
-  providers: [SortPipe, FileUploadService, ProductsCacheService, ProductRatingService]
+  providers: [SortPipe, FileUploadService, ProductsCacheService, ProductRatingService,ProductSearchService]
 })
 export class ProductsModule {}

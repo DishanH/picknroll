@@ -19,10 +19,11 @@ import { ProductSearchComponent } from './products/product-search/product-search
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: ':category/products', component: ProductsListComponent },
+  { path: ':categoryid/:category/products', component: ProductsListComponent },
   // { path: ':products', component: ProductsListComponent },
   { path: 'products/:id', component: ProductDetailComponent },
-  { path: 'product-search', component: ProductSearchComponent },
+  { path: 'product-search/:searchText', component: ProductSearchComponent },
+  // { path: 'product-search', component: ProductSearchComponent },
   { path: 'cart', component: CartComponent },
   { path: 'admin/add', component: AddEditComponent, canActivate: [AdminGuard] },
   {

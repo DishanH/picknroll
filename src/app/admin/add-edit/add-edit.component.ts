@@ -304,13 +304,13 @@ export class AddEditComponent implements OnInit, OnDestroy {
     };
   }
 
-  private createId(product: Product): number {
+  private createId(product: Product): string {
     const randomId = Math.floor(Math.random() * new Date().getTime());
     let id = product.id || randomId;
     if (id === 1) {
       id = randomId;
     }
-    return id;
+    return id.toString();
   }
 
   private categoriesFromObjectToString(categories: {}): string | null {

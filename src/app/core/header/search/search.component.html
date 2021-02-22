@@ -1,32 +1,48 @@
-<div class="site-search" [ngClass]="{'search-visible' : showSearch}">
-  <input type="text" (input)="onSearchInput($event)" [(ngModel)]="seachText" placeholder="Type to search...">
-  <div *ngIf="seachText?.length > 0" class="search-tools">
-    <span class="close-search">
-      <i class="icon-cross" (click)="onCloseSearch()"></i>
-    </span>
+<div class="search-field" [ngClass]="{'search-visible' : showSearch}">
+  <div class="row">
+    <div class="col-md-11 p-0">
+      <input type="text" (input)="onSearchInput($event)" class="p-0" [(ngModel)]="seachText" (keyup.enter)="onEnter()"
+        placeholder="Type to search...">
+      <div *ngIf="seachText?.length > 0" class="search-tools">
+        <span class="close-search">
+          <i class="icon-cross" (click)="onCloseSearch()"></i>
+        </span>
+      </div>
+    </div>
+    <div class="col-md-1 p-0">
+      <div class="search">
+        <!-- <i (click)="showSearch = true" class="icon-search"></i> -->
+        <a routerLink="/product-search/{{seachText}}" href=""></a><i class="icon-search"></i>
+      </div>
+    </div>
   </div>
-  <div class="search-results">
+  <div class="search-results" [ngClass]="{'search-visible' : showSearchResults}">
+    <div class="page-title">
+      <span>Pages</span>
+      <span class="more"></span>
+    </div>
+    <div class="page-title">
+      <span>Products</span>
+      <span class="more" *ngIf="showMore"><a [routerLink]="" (click)="onEnter()">more</a></span>
+    </div>
     <div *ngIf="products && products.length > 0">
       <ul>
         <li *ngFor="let product of products">
-          <div class="card mb-3" style="max-width: 540px;">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <img src="{{product.imageURLs[0]}}" alt="{{product.name}}" class="card-img">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">{{product.name}}</h5>
-                  <p class="card-text">{{product.description}}</p>
-                  <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
-                </div>
+          <div class="row no-gutters">
+            <div class="col-md-2">
+             <a (click)="onClickProduct(product?.id)"><img src="{{product?.imageURLs[0]}}" alt="{{product.name}}" class="rounded-circle"></a>
+            </div>
+            <div class="col-md-10">
+              <div class="card-body">
+                <p class="card-title">{{product.name}}</p>
+                <!-- <p class="card-text">{{product.description}}</p> -->
+                <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
               </div>
             </div>
           </div>
           <!-- <a routerLink="/products/{{product.id}}" (click)="onCloseSearch()">{{product.name}}</a> -->
         </li>
       </ul>
-      <span *ngIf="showMore">show more</span>
     </div>
   </div>
 </div>

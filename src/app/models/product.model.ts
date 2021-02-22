@@ -4,7 +4,7 @@ export class Product {
   public imageFeaturedUrl?;
   public relatedProducts: Product[];
   constructor(
-    public id: number = 1,
+    public id: string = "",
     public date: string = new Date().toISOString().split("T")[0],
     public name: string = "",
     public description: string = "",

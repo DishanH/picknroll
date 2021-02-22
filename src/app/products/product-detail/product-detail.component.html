@@ -1,9 +1,7 @@
 <div class="product-detail" [ngClass]="{'loading' : productLoading}">
   <div *ngIf="product">
 
-    <app-page-title title="{{ product.name }}"
-      [children]="[{title: 'Products', link: '/products'}, {title: product.name}]"></app-page-title>
-
+    <app-page-title title="{{ product.name }}" [children]="[{title: '', link: ''}, {title: product.name}]"></app-page-title>
 
     <!-- Page Content-->
     <div class="container padding-bottom-3x mb-1">
@@ -34,7 +32,7 @@
           <span *ngIf="product.ratings" class="text-muted align-middle">&nbsp;{{ ratingCount }} ratings</span>
           <h2 class="padding-top-1x text-normal">{{ product.name }}</h2>
           <span class="h2 d-block">
-            <app-price [product]="product"></app-price>
+            <app-price [product]="product" [variant]="selectedVariant"></app-price>
           </span>
           <p>{{product.description}}</p>
           <div class="row margin-top-1x" *ngIf="product.relatedProducts?.length > 0">
@@ -95,7 +93,7 @@
             </div>
             <div class="padding-bottom-1x mb-2">
               <span *ngIf="product.categories" class="text-medium">Categories:&nbsp;</span>
-              <a *ngFor="let category of product.categories" class="navi-link" href="#">{{ category }}{{' '}}</a>
+              <a *ngFor="let category of product.categories" class="navi-link" routerLink="/{{category.id}}/{{category.name}}/products" href="#">{{ category.name }}{{' '}}</a>
             </div>
             <div class="form-group" *ngIf="product.variantsAvailable">
               <label for="product_variant">{{ product.variantHeader }}</label>

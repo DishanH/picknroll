@@ -59,7 +59,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     this.route.params
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((params: Params) => {
-        this.getProducts(params['category']);
+        this.getProducts(params["category"], params["categoryid"]);
       });
   }
 
@@ -77,10 +77,10 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   //       this.productsLoading = false;
   //     });
   // }
-  getProducts(category: string = "") {
+  getProducts(category: string = "", categoryId: number = 0) {
     this.productsLoading = true;
     this.productService
-      .getProducts(category)
+      .getProducts(category, categoryId)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((products) => {
         this.products = <Product[]>products;
@@ -95,7 +95,10 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   }
 
   setPage(page: number) {
-    if (page < 1 || (this.pager.totalPages != 0 && page > this.pager.totalPages)) {
+    if (
+      page < 1 ||
+      (this.pager.totalPages != 0 && page > this.pager.totalPages)
+    ) {
       return;
     }
     this.pager = this.pagerService.getPager(this.products.length, page, 8);

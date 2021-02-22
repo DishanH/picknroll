@@ -67,7 +67,7 @@ export class ReviewComponent implements OnInit, OnDestroy {
     const order = this.checkoutService.getOrderInProgress();
     const total = this.cartService.getTotal();
 
-    this.checkoutService.setOrderItems(this.cartService.getItems());
+  this.checkoutService.setOrderItems(this.cartService.getItems());
 
     if (userUid) {
       this.submitUserOrder(order, total, userUid);
@@ -111,5 +111,6 @@ export class ReviewComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    this.checkoutService.shippingFee$.next(0);//check this
   }
 }

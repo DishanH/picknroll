@@ -1,7 +1,9 @@
 <app-page-title title="Search" [children]="[{title: 'Product Search'}]"></app-page-title>
 <div class="container padding-bottom-3x mb-1">
   <div class="md-form padding-bottom-1x mb-2">
-    <input class="form-control" type="text" placeholder="Search" aria-label="Search" (keyup.enter)="onEnter($event)">
+    <!-- <input class="form-control" type="text" placeholder="Search" aria-label="Search" (keyup.enter)="onEnter($event)"> -->
+    <h3>Search results for: "{{searchTerm}}"</h3>
+    <!-- <input class="form-control" type="text" placeholder="Search" aria-label="Search" (keyup.enter)="onEnter($event)"> -->
   </div>
 
   <div class="products-list" [ngClass]="{'loading' : productsLoading}">

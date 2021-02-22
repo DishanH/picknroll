@@ -112,9 +112,9 @@ describe('CartService', () => {
       );
 
       const testArray = [
-        new CartItem(testProduct, 1),
-        new CartItem(testProduct, 2),
-        new CartItem(testProduct, 3)
+        new CartItem(testProduct, 0, 1),
+        new CartItem(testProduct, 0, 2),
+        new CartItem(testProduct, 0, 3)
       ];
 
       spyOn(cartService, 'addItem').and.callThrough();
@@ -125,7 +125,7 @@ describe('CartService', () => {
       // Check items in cart
       expect(cartService.addItem).toHaveBeenCalledTimes(3);
       expect(messageService.add).toHaveBeenCalledTimes(3);
-      expect(cartService.getItems()).toEqual([new CartItem(testProduct, 6)]);
+      expect(cartService.getItems()).toEqual([new CartItem(testProduct, 0, 6)]);
     });
 
     it('removeItem() should remove a distinct item', () => {

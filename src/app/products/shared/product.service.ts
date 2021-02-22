@@ -33,6 +33,8 @@ import { ProductsUrl } from "./productsUrl";
 import { firestore } from "firebase";
 import { Category } from "../../models/category.model";
 
+import * as _ from "lodash";
+
 @Injectable()
 export class ProductService {
   private productsUrl = ProductsUrl.productsUrl;
@@ -48,7 +50,9 @@ export class ProductService {
     private fireStoreDb: AngularFirestore
   ) {
     this.productCollectionRef = this.fireStoreDb.collection("products");
-    this.productCategoriesCollectionRef = this.fireStoreDb.collection("categories");
+    this.productCategoriesCollectionRef = this.fireStoreDb.collection(
+      "categories"
+    );
   }
 
   /** Log a ProductService message with the MessageService */
@@ -71,24 +75,31 @@ export class ProductService {
     };
   }
 
-
   public getCategories(): Observable<Category[]> {
-    return this.productCategoriesCollectionRef
-      .valueChanges()
-      .pipe(
-        map((arr) => <Category[]>arr.reverse()),
-        catchError(this.handleError<Category[]>(`getCategories`))
-      );
+    return this.productCategoriesCollectionRef.valueChanges().pipe(
+      map((arr) => <Category[]>arr.reverse()),
+      catchError(this.handleError<Category[]>(`getCategories`))
+    );
   }
 
-  public getProducts(category: string = "all"): Observable<Product[]> {
-    return this.fireStoreDb
-      .collection("products",(queryfn) => queryfn.where("category","array-contains-any",[category]))
-      .valueChanges()
-      .pipe(
-        map((arr) => <Product[]>arr.reverse()),
-        catchError(this.handleError<Product[]>(`getProducts`))
+  public getProducts(
+    category: string = "all",
+    categoryid: number = 0
+  ): Observable<Product[]> {
+    let result: AngularFirestoreCollection;
+
+    if (categoryid > 0) {
+      const categoryObject = { id: 4, name: _.capitalize(category) };
+      result = this.fireStoreDb.collection("products", (queryfn) =>
+        queryfn.where("categories", "array-contains", categoryObject)
       );
+    } else {
+      result = this.fireStoreDb.collection("products");
+    }
+    return result.valueChanges().pipe(
+      map((arr) => <Product[]>arr.reverse()),
+      catchError(this.handleError<Product[]>(`getProducts`))
+    );
     // return this.db
     //   .list<Product>("products", (ref) => ref.orderByChild("date"))
     //   .valueChanges()
@@ -103,27 +114,32 @@ export class ProductService {
     equalTo: string | boolean,
     limitToFirst: number
   ): Observable<Product[]> {
-    return this.fireStoreDb
-    .collection<Product>("products", (ref) =>
-    ref.orderBy(byChild).limit(limitToFirst)
-    )
-      //.list<Product>("products", (ref) =>
-      //  ref.orderByChild(byChild).equalTo(equalTo).limitToFirst(limitToFirst)
-      //)
-      .valueChanges()
-      .pipe(catchError(this.handleError<Product[]>(`getProductsQuery`)));
+    return (
+      this.fireStoreDb
+        .collection<Product>("products", (ref) =>
+          ref.orderBy(byChild).limit(limitToFirst)
+        )
+        //.list<Product>("products", (ref) =>
+        //  ref.orderByChild(byChild).equalTo(equalTo).limitToFirst(limitToFirst)
+        //)
+        .valueChanges()
+        .pipe(catchError(this.handleError<Product[]>(`getProductsQuery`)))
+    );
   }
 
   public findProducts(term): Observable<any> {
     return this.fireStoreDb
-      .collection<Product>("products", (ref) =>
-        ref
-          .orderBy("name")
-          .startAt(term)
-          .endAt(term + "\uf8ff")
-          // .orderByChild("name")
-          // .startAt(term)
-          // .endAt(term + "\uf8ff")
+      .collection<Product>(
+        "products",
+        (ref) =>
+          // ref
+          //   .orderBy("name")
+          //   .startAt(term)
+          //   .endAt(term + "\uf8ff")
+          ref.where("name",">=",term)
+        // .orderByChild("name")
+        // .startAt(term)
+        // .endAt(term + "\uf8ff")
       )
       .valueChanges()
       .pipe(catchError(this.handleError<Product[]>(`getProductsQuery`)));
@@ -348,16 +364,18 @@ export class ProductService {
 
     this.uploadService.deleteFile(product.imageRefs);
 
-    return this.fireStoreDb
-      .collection("products")
-      .doc(`${product.id}`)
-      .delete()
-      //.object<Product>(url)
-      //.remove()
-      .then(() => this.log("success deleting" + product.name))
-      .catch((error) => {
-        this.messageService.addError("Delete failed " + product.name);
-        this.handleError("delete product");
-      });
+    return (
+      this.fireStoreDb
+        .collection("products")
+        .doc(`${product.id}`)
+        .delete()
+        //.object<Product>(url)
+        //.remove()
+        .then(() => this.log("success deleting" + product.name))
+        .catch((error) => {
+          this.messageService.addError("Delete failed " + product.name);
+          this.handleError("delete product");
+        })
+    );
   }
 }

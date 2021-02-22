@@ -1,5 +1,10 @@
-import { Product } from './product.model';
+import { Product } from "./product.model";
 
 export class CartItem {
-  constructor(public product: Product, public amount: number) {}
+  public id: number;
+  constructor(
+    public product: Product,
+    public variant: number,
+    public amount: number
+  ) {}
 }

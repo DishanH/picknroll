@@ -1,36 +1,49 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CheckoutService } from '../shared/checkout.service';
-import { Customer } from '../../models/customer.model';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { CheckoutService } from "../shared/checkout.service";
+import { Customer } from "../../models/customer.model";
 
 @Component({
-  selector: 'app-checkout-shipping',
-  templateUrl: './shipping.component.html',
-  styleUrls: ['./shipping.component.scss']
+  selector: "app-checkout-shipping",
+  templateUrl: "./shipping.component.html",
+  styleUrls: ["./shipping.component.scss"],
 })
 export class ShippingComponent implements OnInit {
   public formShipping: FormGroup;
-  public shippingMethods: {method: string, time: string, fee: number, value: string}[];
+  public shippingMethods: {
+    method: string;
+    time: string;
+    fee: number;
+    value: string;
+  }[];
 
-  constructor(private checkoutService: CheckoutService) { }
+  public shippingFee:number;
+
+  constructor(private checkoutService: CheckoutService) {}
 
   ngOnInit() {
     this.shippingMethods = [
       {
-        method: 'Canada Post Priority',
-        time: '1 - 2 days',
+        method: "Canada Post Priority",
+        time: "1 - 2 days",
         fee: 11,
-        value: 'priority'
+        value: "priority",
       },
       {
-        method: 'Canada Post Economy',
-        time: 'up to one week',
+        method: "Canada Post Economy",
+        time: "up to one week",
         fee: 9,
-        value: 'economy'
-      }
+        value: "economy",
+      },
     ];
+
+    this.shippingFee = this.shippingMethods[1].fee;
+
     this.formShipping = new FormGroup({
-      'shippingMethod': new FormControl(this.shippingMethods[1].value, Validators.required)
+      shippingMethod: new FormControl(
+        this.shippingMethods[1].value,
+        Validators.required
+      ),
     });
   }
 
@@ -38,9 +51,15 @@ export class ShippingComponent implements OnInit {
     this.checkoutService.previousStep();
   }
 
-  public onContinue() {
-    this.checkoutService.setShippingMethod(this.formShipping.controls.shippingMethod.value);
-    this.checkoutService.nextStep();
+  public changeVal(shippingFee: number){
+    this.shippingFee = shippingFee;
   }
 
+  public onContinue() {
+    this.checkoutService.setShippingMethod(
+      this.formShipping.controls.shippingMethod.value,
+      this.shippingFee
+    );
+    this.checkoutService.nextStep();
+  }
 }

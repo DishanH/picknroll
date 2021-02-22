@@ -1,18 +1,18 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
-import { AuthService } from '../../account/shared/auth.service';
-import { CartService } from '../../cart/shared/cart.service';
+import { AuthService } from "../../account/shared/auth.service";
+import { CartService } from "../../cart/shared/cart.service";
 
-import { CartItem } from '../../models/cart-item.model';
-import { Product } from '../../models/product.model';
-import { User } from '../../models/user.model';
+import { CartItem } from "../../models/cart-item.model";
+import { Product } from "../../models/product.model";
+import { User } from "../../models/user.model";
 
 @Component({
-  selector: 'app-products-list-item',
-  templateUrl: './products-list-item.component.html',
-  styleUrls: ['./products-list-item.component.scss']
+  selector: "app-products-list-item",
+  templateUrl: "./products-list-item.component.html",
+  styleUrls: ["./products-list-item.component.scss"],
 })
 export class ProductsListItemComponent implements OnInit, OnDestroy {
   private userSubscription: Subscription;
@@ -33,8 +33,8 @@ export class ProductsListItemComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onAddToCart() {
-    this.cartService.addItem(new CartItem(this.product, 1));
+  public onAddToCart() {//check this
+    this.cartService.addItem(new CartItem(this.product, 1, 1));
   }
 
   public onImageLoad() {

@@ -57,8 +57,8 @@
                     </div>
                   </div>
                 </td>
-                <td class="text-center text-lg text-medium"><app-price [product]="item.product"></app-price></td>
-                <td class="text-center text-lg text-medium">{{ (item.product.price * item.amount) | currency }}</td>
+                <td class="text-center text-lg text-medium"><app-price [product]="item.product" [variant]="item.variant"></app-price></td>
+                <td class="text-center text-lg text-medium">{{ ((item.variant == 1 ? item.product.price : item.product['variantPrice'+item.variant]) * item.amount) | currency }}</td>
                 <td class="text-right">
                   <a class="remove-from-cart"
                     href="#"
@@ -98,10 +98,10 @@
             <a class="btn btn-outline-secondary" routerLink="/products">
               <i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a>
           </div>
-          <div class="column">
+          <div class="column" disabled>
             <!-- <a class="btn btn-primary" href="#" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check"
               data-toast-title="Your cart" data-toast-message="is updated successfully!">Update Cart</a> -->
-            <a class="btn btn-success" routerLink="/checkout">Checkout</a>
+            <a class="btn btn-success" [class.disabled]="!items.length" routerLink="/checkout">Checkout</a>
           </div>
         </div>
 
