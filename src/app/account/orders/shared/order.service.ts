@@ -127,7 +127,6 @@ export class OrderService {
         .then(
           (response) => {
             //Add items
-            console.log(response);
             return response;
           },
           (error) => {

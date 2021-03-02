@@ -56,7 +56,7 @@ export class ReviewComponent implements OnInit, OnDestroy {
         this.customer = order.customer;
         this.paymentMethod = order.paymentMethod;
       });
-  }
+      }
 
   public onBack() {
     this.checkoutService.previousStep();

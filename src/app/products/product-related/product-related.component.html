@@ -1,4 +1,4 @@
-<div class="related-product card mr-1 mb-1">
+<div class="related-product card mr-1 mb-1" [ngClass]="{'active-product' :(selected == product.id)}">
   <a routerLink="/products/{{product.id}}" rel="nofollow">
   <div class="row m-0">
     <div class="col-sm-2 p-0">

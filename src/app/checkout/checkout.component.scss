@@ -2,7 +2,8 @@
 @import '~scss/helpers/mixins';
 
 .checkout-steps {
-  margin-bottom: floor($grid-vertical-step * 1.7); // ~40px
+  // margin-bottom: floor($grid-vertical-step * 1.7); // ~40px
+  margin-bottom: floor($grid-vertical-step * 3.4); //D
   @include clearfix;
 
   > a,
@@ -39,11 +40,15 @@
     > .angle {
       display: block;
       position: absolute;
-      top: 0;
+      top: -1px;
       right: 0px;
       width: 27px;
-      height: 53px;
+      height: 55px;
       background-color: $body-bg;
+
+      border-top:1px solid $border-color; //D
+      border-bottom:1px solid $border-color; //D
+      border-left: 0;
 
       &::before,
       &::after {

@@ -89,7 +89,10 @@ export class ProductService {
     let result: AngularFirestoreCollection;
 
     if (categoryid > 0) {
-      const categoryObject = { id: 4, name: _.capitalize(category) };
+      let categoryObject = { id: Number(categoryid), name: _.capitalize(category) };
+
+      // console.log(categoryObject);
+
       result = this.fireStoreDb.collection("products", (queryfn) =>
         queryfn.where("categories", "array-contains", categoryObject)
       );
@@ -136,7 +139,7 @@ export class ProductService {
           //   .orderBy("name")
           //   .startAt(term)
           //   .endAt(term + "\uf8ff")
-          ref.where("name",">=",term)
+          ref.where("name", ">=", term)
         // .orderByChild("name")
         // .startAt(term)
         // .endAt(term + "\uf8ff")
@@ -189,7 +192,9 @@ export class ProductService {
 
   public getFeaturedProducts(): Observable<any[]> {
     return this.fireStoreDb
-      .collection<Product>("featured")
+      .collection<Product>("featured", (ref) =>
+        ref.where("enabled", "==", true)
+      )
       .snapshotChanges()
       .pipe(
         switchMap(
@@ -297,6 +302,7 @@ export class ProductService {
       })
       .then((response) => {
         this.log(`Updated Product ${data.product.name}`);
+        this.setFeaturedProduct(data.product);
         return data.product;
       })
       .catch((error) => {
@@ -315,6 +321,7 @@ export class ProductService {
         .set(product)
         .then((response) => {
           this.log(`Updated Product ${product.name}`);
+          this.setFeaturedProduct(product);
           return product;
         })
         .catch((error) => {
@@ -322,6 +329,30 @@ export class ProductService {
           return error;
         });
     return fromPromise(dbOperation);
+  }
+
+  public setFeaturedProduct(product: Product) {
+    //to-do set different image
+    if (!product?.imageURLs[0]) return;
+
+    var featuredProduct = {
+      enabled: product.featuredProduct,
+      imageFeaturedUrl: product.imageURLs[0],
+    };
+    this.fireStoreDb
+      .collection("featured")
+      .doc(product.id.toString())
+      .set(featuredProduct)
+      .then(
+        (response) => {
+          console.log(response);
+          return response;
+        },
+        (error) => {
+          console.log(error);
+          return error;
+        }
+      );
   }
 
   public addProduct(data: { product: Product; files: FileList }) {
@@ -347,6 +378,7 @@ export class ProductService {
       )
       .then((response) => {
         this.log(`Added Product ${data.product.name}`);
+        this.setFeaturedProduct(data.product);
         return data.product;
       })
       .catch((error) => {

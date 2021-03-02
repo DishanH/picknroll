@@ -20,6 +20,7 @@ import { SearchComponent } from './header/search/search.component';
 import { ProductService } from '../products/shared/product.service';
 import { MessageService } from '../messages/message.service';
 import { CartService } from '../cart/shared/cart.service';
+import { CartCachingService } from '../cart/shared/cart-caching.service';
 import { PagerService } from '../pager/pager.service';
 import { OrderService } from '../account/orders/shared/order.service';
 import { CheckoutService } from '../checkout/shared/checkout.service';
@@ -71,6 +72,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         ProductsCacheService,
         MessageService,
         CartService,
+        CartCachingService,
         PagerService,
         OrderService,
         CheckoutService,

@@ -173,6 +173,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   // }
 
   private ProductVariants(){
+    this.productVariants = [];
     if(this.product.variantsAvailable){
         this.productVariants.push(new ProductVariant(this.product.variantId1, this.product.variantName1))
       if(this.product.variantEnabled2)

@@ -9,6 +9,7 @@ import { Product } from '../../models/product.model';
 export class ProductRelatedComponent implements OnInit {
 
   @Input() public product: Product;
+  @Input() public selected: string;
   constructor() { }
 
   ngOnInit(): void {

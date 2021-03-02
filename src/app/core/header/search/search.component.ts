@@ -84,8 +84,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   public search(term: string) {
-    let result = this.productService.findProducts(term);
-    return result;
+    // let result = this.productService.findProducts(term);
+    // return result;
 
     const searchService = this.index
       .search(term, {

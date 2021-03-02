@@ -106,7 +106,7 @@
 
 
         <div class="form-group row">
-          <label class="col-3 col-form-label" for="price">Actual Price(Display Price)</label>
+          <label class="col-3 col-form-label" for="price">Retail Price</label>
           <div class="col-9">
             <input [(ngModel)]="priceForVariant" class="form-control form-control-square form-control-sm" formControlName="price" type="number"
               id="price" value="">
@@ -118,8 +118,8 @@
         </div>
 
         <div class="form-group row">
-          <label class="col-3 col-form-label" for="price-normal">Original Price</label>
-          <div class="col-9">
+          <label class="col-3 col-form-label" for="price-normal">Supply Price</label>
+          <div class="col-9 mt-1">
             <input [(ngModel)]="priceNormalForVariant" class="form-control form-control-square form-control-sm" formControlName="priceNormal" type="number"
               id="price-normal" value="0">
             <div *ngIf="!productForm.get('priceNormal').valid && productForm.get('priceNormal').touched"
@@ -129,16 +129,24 @@
           </div>
         </div>
 
+        <div class="form-group row">
+          <label class="col-3 col-form-label" for="featured-product">Featured Product</label>
+          <div class="col-9">
+            <input class="form-check-input ml-0" type="checkbox" id="featured-product" formControlName="featuredProduct">
+            <label class="form-check-label" for="featured-product">Display on home screen</label>
+          </div>
+        </div>
+
         <!-- <div class="form-group row">
           <label class="col-3 col-form-label" for="price-normal">Varients</label>
           <div class="col-9 align-middle" style="align-self: center;">
             <input type="checkbox" formControlName="productVariants" />
           </div>
         </div> -->
-        <div class="form-group row mt-5">
-          <div class="col-12">Enter product variants here.</div>
+        <div class="form-group row mt-3">
+          <div class="col-12 h6">Enter product variants here.</div>
         </div>
-        <div class="form-group row mt-5">
+        <div class="form-group row mt-2">
           <label class="col-3 col-form-label" for="groupid">Header</label>
           <div class="col-9">
             <input class="form-control form-control-square form-control-sm"
@@ -152,8 +160,8 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Variant Name</th>
-                <th scope="col">Supply Price</th>
                 <th scope="col">Retail Price</th>
+                <th scope="col">Supply Price</th>
                 <th scope="col">Enabled</th>
               </tr>
             </thead>

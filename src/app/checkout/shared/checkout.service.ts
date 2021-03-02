@@ -1,8 +1,8 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { Order } from '../../models/order.model';
-import { Customer } from '../../models/customer.model';
-import { CartItem } from '../../models/cart-item.model';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, EventEmitter } from "@angular/core";
+import { Order } from "../../models/order.model";
+import { Customer } from "../../models/customer.model";
+import { CartItem } from "../../models/cart-item.model";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable()
 export class CheckoutService {
@@ -41,6 +41,11 @@ export class CheckoutService {
     this.orderInProgressChanged.emit(this.orderInProgress);
   }
 
+  public setPaymentMethod(paymentMethod: string) {
+    this.orderInProgress.paymentMethod = paymentMethod;
+    this.orderInProgressChanged.emit(this.orderInProgress);
+  }
+
   public setShippingMethod(shippingMethod: string, shippingFee: number) {
     this.orderInProgress.shippingMethod = shippingMethod;
     this.orderInProgress.shippingFee = shippingFee;
@@ -55,10 +60,5 @@ export class CheckoutService {
 
   public getOrderInProgress() {
     return this.orderInProgress;
-  }
-
-  public setPaymentMethod(paymentMethod: string) {
-    this.orderInProgress.paymentMethod = paymentMethod;
-    this.orderInProgressChanged.emit(this.orderInProgress);
   }
 }

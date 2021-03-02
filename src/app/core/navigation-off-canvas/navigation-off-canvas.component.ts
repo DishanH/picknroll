@@ -16,6 +16,7 @@ import { User } from '../../models/user.model';
 export class NavigationOffCanvasComponent implements OnInit, OnDestroy {
   private authSubscription: Subscription;
   public user: User;
+  public selected: number;
 
   constructor(
     public offcanvasService: OffcanvasService,
@@ -42,5 +43,11 @@ export class NavigationOffCanvasComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.authSubscription.unsubscribe();
+  }
+
+  public toggle(event : Event){
+   // this.selected = 1;
+    let element = event.target as Element;
+    (element.parentElement.nextSibling as Element).classList.toggle("offcanvas-submenu");
   }
 }

@@ -214,33 +214,103 @@
       </li>
       <li class="has-children">
         <span>
-          <a routerLink="/all/products" href="">Shop</a>
-          <span class="sub-menu-toggle"></span>
+          <a href="" style="pointer-events: none;cursor: pointer;">Shop</a>
+          <span class="sub-menu-toggle" (click)="toggle($event)"></span>
         </span>
+        <!-- <ul class="offcanvas-submenu" [ngClass]="{'peter': selected === 1}"> -->
         <ul class="offcanvas-submenu">
           <li>
-            <a href="#">Sneakers</a>
+            <a routerLink="/0/all/products" (click)="onNavigationClick()" href="">
+              <!-- <span>All [30]</span> -->
+              <span>All</span>
+            </a>
           </li>
           <li>
-            <a href="#">Loafers</a>
+            <a routerLink="/1/sale/products" (click)="onNavigationClick()" href="">
+              <!-- <span>Sale [25]</span> -->
+              <span>Sale</span>
+            </a>
           </li>
           <li>
-            <a href="#">Boat Shoes</a>
+            <a routerLink="/2/flower/products" (click)="onNavigationClick()" href="">
+              <span>Flower</span>
+            </a>
           </li>
           <li>
-            <a href="#">Sandals</a>
+            <a routerLink="/3/edibles/products" (click)="onNavigationClick()" href="">
+              <span>Edibles</span>
+            </a>
           </li>
           <li>
-            <a href="#">View All</a>
+            <a routerLink="/4/concentrates/products" (click)="onNavigationClick()" href="">
+              <span>Concentrates</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/5/accessories/products" (click)="onNavigationClick()" href="">
+              <span>Accessories</span>
+            </a>
           </li>
         </ul>
       </li>
       <li routerLinkActive="active">
+        <a href="" routerLink="/7/localdelivery/products"  (click)="onNavigationClick()">
+          <span>Local Delivery</span>
+        </a>
+      </li>
+      <li class="has-children">
         <span>
-          <a routerLink="/products" (click)="onNavigationClick()">
-            <span>Products</span>
-          </a>
+          <a href="" style="pointer-events: none;cursor: pointer;">Flower</a>
+          <span class="sub-menu-toggle" (click)="toggle($event)"></span>
         </span>
+        <ul class="offcanvas-submenu">
+          <li>
+            <a routerLink="/2/flower/products" (click)="onNavigationClick()" href="">
+              <span>All Flower</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/6/indica/products" (click)="onNavigationClick()" href="">
+              <span>Indica</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/9/sativa/products" (click)="onNavigationClick()" href="">
+              <span>Sativa</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/8/hybrid/products" (click)="onNavigationClick()" href="">
+              <span>Hybrid</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="has-children">
+        <span>
+          <a href="" style="pointer-events: none;cursor: pointer;">Edibles</a>
+          <span class="sub-menu-toggle" (click)="toggle($event)"></span>
+        </span>
+        <ul class="offcanvas-submenu">
+          <li>
+            <a routerLink="/3/edibles/products"  (click)="onNavigationClick()" href="">
+              <span>All Edibles</span>
+            </a>
+          </li>
+          </ul>
+      </li>
+      <li class="has-children">
+        <span>
+          <a href="" style="pointer-events: none;cursor: pointer;">Concentrates</a>
+          <span class="sub-menu-toggle" (click)="toggle($event)"></span>
+        </span>
+        <ul class="offcanvas-submenu">
+          <li>
+            <a routerLink="/4/concentrates/products" (click)="onNavigationClick()" href="">
+              <span>All Concentrates</span>
+            </a>
+          </li>
+          </ul>
       </li>
       <li routerLinkActive="active">
         <span>

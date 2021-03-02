@@ -3,6 +3,7 @@ import { Category } from "./category.model";
 export class Product {
   public imageFeaturedUrl?;
   public relatedProducts: Product[];
+  public featuredProduct: boolean = false;
   constructor(
     public id: string = "",
     public date: string = new Date().toISOString().split("T")[0],
@@ -21,7 +22,7 @@ export class Product {
     public sale: boolean = false,
     public display: boolean = false,
     public variantsAvailable: boolean = false,
-    public variantHeader: string ="",
+    public variantHeader: string = "",
 
     //product variants
     public variantId1: number = 1,
@@ -46,6 +47,6 @@ export class Product {
     public variantName4: string = "",
     public variantPrice4: number = 0,
     public variantPriceNormal4: number = 0,
-    public variantEnabled4: boolean = false,
+    public variantEnabled4: boolean = false
   ) {}
 }

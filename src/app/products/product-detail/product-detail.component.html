@@ -36,7 +36,7 @@
           </span>
           <p>{{product.description}}</p>
           <div class="row margin-top-1x" *ngIf="product.relatedProducts?.length > 0">
-            <app-product-related [product]="product" *ngFor="let product of product.relatedProducts">
+            <app-product-related [product]="relatedProduct" [selected]="product.id" *ngFor="let relatedProduct of product.relatedProducts">
             </app-product-related>
           </div>
           <div class="row margin-top-1x">
@@ -95,10 +95,10 @@
               <span *ngIf="product.categories" class="text-medium">Categories:&nbsp;</span>
               <a *ngFor="let category of product.categories" class="navi-link" routerLink="/{{category.id}}/{{category.name}}/products" href="#">{{ category.name }}{{' '}}</a>
             </div>
-            <div class="form-group" *ngIf="product.variantsAvailable">
+            <div class="form-group" *ngIf="product?.variantsAvailable">
               <label for="product_variant">{{ product.variantHeader }}</label>
               <select class="form-control form-control-rounded" name="product_variant" [(ngModel)]="selectedVariant"  (change)="onVariant()">
-                <option *ngFor="let variant of productVariants" [value]="variant.id">{{ variant.name }} </option>
+                <option *ngFor="let variant of productVariants" [value]="variant.id"  >{{ variant.name }} </option>
                 <!-- <option *ngFor="let variant of productVariants" [value]="value">{{ variant.name }} {{ variant.discount }} </option> -->
               </select>
             </div>

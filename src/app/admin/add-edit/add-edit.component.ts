@@ -112,6 +112,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
         // Validators.required
       ),
       groupid: new FormControl(this.product && this.product.groupid),
+      featuredProduct: new FormControl(this.product && this.product.featuredProduct),
       description: new FormControl(
         this.product && this.product.description,
         Validators.required
