@@ -37,11 +37,14 @@ export class ShippingComponent implements OnInit {
       },
     ];
 
-    this.shippingFee = this.shippingMethods[1].fee;
+    //this.shippingFee = this.shippingMethods[1].fee;
+
+    const selectedShippingMethod = this.checkoutService.getOrderInProgress()?.shippingMethod;
+    this.shippingFee = this.checkoutService.getOrderInProgress()?.shippingFee ?? this.shippingMethods[1].fee;
 
     this.formShipping = new FormGroup({
       shippingMethod: new FormControl(
-        this.shippingMethods[1].value,
+        selectedShippingMethod ?? this.shippingMethods[1].value,
         Validators.required
       ),
     });

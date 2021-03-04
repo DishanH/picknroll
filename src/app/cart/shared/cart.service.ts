@@ -7,12 +7,16 @@ import { MessageService } from "../../messages/message.service";
 export class CartService {
   // Init and generate some fixtures
   private cartItems: CartItem[];
-  public itemsChanged: EventEmitter<CartItem[]> = new EventEmitter<
-    CartItem[]
-  >();
+  public itemsChanged: EventEmitter<CartItem[]> = new EventEmitter<CartItem[]>();
 
   constructor(private messageService: MessageService) {
-    this.cartItems = [];
+    if(localStorage.getItem("12345_cart"))
+      this.cartItems = JSON.parse(localStorage.getItem("12345_cart")) ?? [];
+    else
+      this.cartItems = [];
+
+    this.itemsChanged.subscribe(items =>
+      localStorage.setItem("12345_cart",JSON.stringify(items)));
   }
 
   public getItems() {

@@ -36,7 +36,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.checkoutService.shippingFee$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((shippingFee) => {
-        this.shipping = shippingFee;
+        console.log('side' + shippingFee);
+        this.shipping = shippingFee ?? 0;
         this.hstAmount = this.cartSubtotal * 0.13;
         this.orderTotal = this.cartSubtotal + this.shipping + this.hstAmount;
     });

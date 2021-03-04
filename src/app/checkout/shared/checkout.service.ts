@@ -13,8 +13,18 @@ export class CheckoutService {
   public shippingFee$: BehaviorSubject<number> = new BehaviorSubject(0);
 
   constructor() {
-    this.orderInProgress = new Order(new Customer());
-    this.activeStep = 0;
+
+    this.activeStep = (Number)(localStorage.getItem("12345_order_step")) ?? 0;
+
+    if(localStorage.getItem("12345_order")){
+      this.orderInProgress = JSON.parse(localStorage.getItem("12345_order")) ?? new Order(new Customer());
+      this.shippingFee$.next(this.orderInProgress.shippingFee);
+    }
+    else
+      this.orderInProgress = new Order(new Customer());
+
+    this.orderInProgressChanged.subscribe(order => localStorage.setItem("12345_order",JSON.stringify(order)));
+    this.stepChanged.subscribe(order => localStorage.setItem("12345_order_step",this.activeStep.toString()));
   }
 
   public gotoStep(number) {
@@ -34,6 +44,7 @@ export class CheckoutService {
 
   public resetSteps() {
     this.activeStep = 0;
+    this.stepChanged.emit(this.activeStep);
   }
 
   public setCustomer(customer: Customer) {
@@ -61,4 +72,9 @@ export class CheckoutService {
   public getOrderInProgress() {
     return this.orderInProgress;
   }
+
+  public resetOrder(){
+    this.orderInProgressChanged.emit(new Order(new Customer()));
+  }
+
 }

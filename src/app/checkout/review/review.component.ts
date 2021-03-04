@@ -50,6 +50,7 @@ export class ReviewComponent implements OnInit, OnDestroy {
         this.total = this.cartService.getTotal();
       });
     this.customer = this.checkoutService.getOrderInProgress().customer;
+    this.paymentMethod = this.checkoutService.getOrderInProgress().paymentMethod;
     this.checkoutService.orderInProgressChanged
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((order: Order) => {
@@ -84,6 +85,7 @@ export class ReviewComponent implements OnInit, OnDestroy {
         (response) => {
           this.cartService.clearCart();
           this.checkoutService.resetSteps();
+          this.checkoutService.resetOrder();
           this.router.navigate(['/order-complete']);
         },
         (error) => {
@@ -100,6 +102,7 @@ export class ReviewComponent implements OnInit, OnDestroy {
         (response) => {
           this.cartService.clearCart();
           this.checkoutService.resetSteps();
+          this.checkoutService.resetOrder();
           this.router.navigate(['/order-complete']);
         },
         (error) => {
@@ -111,6 +114,5 @@ export class ReviewComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    this.checkoutService.shippingFee$.next(0);//check this
   }
 }

@@ -18,8 +18,11 @@ export class PaymentComponent implements OnInit {
   ngOnInit() {
     this.paypalLoggedIn = false;
     this.paymentMethods = ['Paypal', 'Prepayment'];
+
+    const selectedPaymentMethod = this.checkoutService.getOrderInProgress()?.paymentMethod;
+
     this.formPayment = new FormGroup({
-      'paymentMethod': new FormControl(this.paymentMethods[0], Validators.required)
+      'paymentMethod': new FormControl(selectedPaymentMethod ?? this.paymentMethods[0], Validators.required)
     });
   }
 

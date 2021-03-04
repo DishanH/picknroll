@@ -34,29 +34,51 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   private initFormGroup() {
+    const currentOrder = this.checkoutService.getOrderInProgress();
+
+    let firstName = this.user && this.user.firstName;
+    let lastName = this.user && this.user.lastName;
+    let address1 = null;
+    let address2 = null;
+    let zip = null;
+    let city = null;
+    let email = this.user && this.user.email;
+    let phone = null;
+    let company = null;
+    if(currentOrder){
+      firstName = currentOrder.customer.firstname;
+      lastName = currentOrder.customer.lastname;
+      address1 = currentOrder.customer.address1;
+      address2 = currentOrder.customer.address2;
+      zip = currentOrder.customer.zip;
+      city = currentOrder.customer.city;
+      email = currentOrder.customer.email;
+      phone = currentOrder.customer.phone;
+      company = currentOrder.customer.company;
+    }
     this.countries = ['Canada'];
     this.formAddress = new FormGroup({
       firstname: new FormControl(
-        this.user && this.user.firstName,
+        firstName,
         Validators.required
       ),
       lastname: new FormControl(
-        this.user && this.user.lastName,
+        lastName,
         Validators.required
       ),
-      address1: new FormControl(null, Validators.required),
-      address2: new FormControl(null),
-      zip: new FormControl(null, [
+      address1: new FormControl(address1, Validators.required),
+      address2: new FormControl(address2),
+      zip: new FormControl(zip, [
         Validators.required,
         Validators.pattern('[0-9a-zA-Z]{6}')
       ]),
-      city: new FormControl(null, Validators.required),
+      city: new FormControl(city, Validators.required),
       email: new FormControl(
-        this.user && this.user.email,
+        email,
         Validators.email
       ),
-      phone: new FormControl(null),
-      company: new FormControl(null),
+      phone: new FormControl(phone),
+      company: new FormControl(company),
       country: new FormControl({ value: this.countries[0], disabled: false })
     });
   }
