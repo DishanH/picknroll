@@ -17,6 +17,7 @@ export class User {
   public dateOfBirth?: string;
   public address: string;
   public photoURL?: string;
+  public photoIdURL?: string;
 
   constructor(authData) {
     this.email = authData.email;
@@ -26,6 +27,7 @@ export class User {
     this.dateOfBirth = authData.dateOfBirth ? authData.dateOfBirth : new Date().toISOString().split('T')[0];
     this.address = authData.address ? authData.address : '';
     this.photoURL = authData.photoURL ? authData.photoURL : '';//default image
+    this.photoIdURL = authData.photoIdURL;
     this.roles = {
       admin: false
     };

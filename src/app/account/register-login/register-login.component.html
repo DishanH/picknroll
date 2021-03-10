@@ -46,6 +46,11 @@
           </div> -->
 
           <div class="text-center text-sm-right">
+            <div class="form-group has-danger">
+              <div class="form-control-feedback">
+                {{ loginErrors }}
+              </div>
+            </div>
             <button [disabled]="!loginForm.valid"class="btn btn-primary margin-bottom-none" type="submit">Login</button>
           </div>
         </form>
@@ -54,7 +59,10 @@
       <div class="col-md-6">
         <div class="padding-top-3x hidden-md-up"></div>
         <h3 class="margin-bottom-1x">No Account? Register</h3>
-        <p>Register With Pick N Roll Cannabis Co</p>
+        <!-- <div class="register-logo"><img src="https://cms.qz.com/wp-content/uploads/2018/06/new-pride-flag-01.jpg?quality=75&strip=all&w=1900&h=1068" alt="User"></div> -->
+        <h6 class="mt-1 mb-2">Register With Pick N Roll Cannabis Co</h6>
+        <p>Signing up is easy and free.
+          You must be 19+ years old to shop at Pick N Roll. Please upload your ID below when you register. We will review your submission and you will receive a confirmation email once approved. A valid Canadian government ID is required.</p>
         <form [formGroup]="registerForm" class="row" (ngSubmit)="onRegister()">
 
            <div class="col-sm-6">
@@ -115,11 +123,12 @@
 
           <div class="col-sm-12">
             <div class="form-group">
-              <label for="reg-customfile">A valid ID is required to shop at Pick N Roll.
+              <label for="user-photo">A valid ID is required to shop at Pick N Roll.
                 You must be 19+ years old. Please upload your ID below.</label>
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="reg-customfile">
-              <label class="custom-file-label" for="reg-customfile">Upload file (Max 15MB)</label>
+              <input type="file" class="custom-file-input" (change)="onChange($event)" id="user-photo" #userPhoto>
+              <label class="custom-file-label" for="user-photo">Upload file (Max 15MB)</label>
+            <span class="pl-3">{{photoUrl}}</span>
             </div>
           </div>
           </div>

@@ -62,7 +62,7 @@
 
 
   <!-- Pagination-->
-  <nav *ngIf="pager.pages && pager.pages.length && (uiService.displayMode$ | async) ==='grid'" class="pagination">
+  <nav *ngIf="pager?.pages && pager.pages.length && (uiService.displayMode$ | async) ==='grid'" class="pagination">
     <div class="column text-left hidden-xs-down">
       <a class="btn btn-outline-secondary btn-sm" [ngClass]="{disabled:pager.currentPage === 1}"
         (click)="setPage(pager.currentPage - 1)"><i class="icon-arrow-left"></i>&nbsp;Previous

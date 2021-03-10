@@ -17,6 +17,7 @@ import { take, takeUntil, switchMap, map } from "rxjs/operators";
 import { MessageService } from "../../messages/message.service";
 import { User, Roles } from "../../models/user.model";
 import {  Router } from "@angular/router";
+import { FileUploadService } from "../../products/shared/file-upload.service";
 
 @Injectable()
 export class AuthService {
@@ -27,6 +28,7 @@ export class AuthService {
     // private db: AngularFireDatabase,
     private fireStoreDb: AngularFirestore,
     private messageService: MessageService,
+    private uploadService: FileUploadService,
     private router: Router
   ) {
     this.user = this.afAuth.authState.pipe(
@@ -67,13 +69,23 @@ export class AuthService {
     );
   }
 
-  public emailSignUp(email: string, password: string, userData: User) {
-    return this.afAuth.createUserWithEmailAndPassword(email, password).then(
+  public emailSignUp(email: string, password: string,data : { user: User, files : File}) {
+    return this.afAuth.createUserWithEmailAndPassword(email, password)
+    .then(
       (user: auth.UserCredential) => {
-        userData.uid = user?.user?.uid;
-        this.updateNewUser(userData);
-      },
-      (error) => {
+        data.user.uid = user?.user?.uid;
+        return data;
+        //this.updateNewUser(data);
+      })
+      .then((userWithId) =>{
+        this.uploadService.startUpload(data,'user')
+        .then((task) => {
+          console.log(task);
+          userWithId.user.photoIdURL = task.ref.fullPath;
+          this.updateNewUser(userWithId.user);
+        });
+      })
+      .catch((error) => {
         throw error;
       }
     );

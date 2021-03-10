@@ -23,6 +23,7 @@ import { Product } from "../../../models/product.model";
 import { fromPromise } from "rxjs/internal-compatibility";
 import { ProductSearchService } from "../../../products/shared/product-search.service";
 import { Router } from "@angular/router";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-search",
@@ -40,8 +41,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   index: SearchIndex;
   showSearchResults: boolean = false;
 
-  ALGOIA_APP_ID = "SM1DRLA1F9";
-  ALGOIA_ADMIN_KEY = "24e3f1697200e6fd3e6f55cb29bd030c"; //move to env file 'expose in git'
+  ALGOIA_APP_ID = environment.algolia.appId;
+  ALGOIA_ADMIN_KEY = environment.algolia.adminKey; //move to env file 'expose in git'
   ALGOIA_INDEX_NAME = "Products";
 
   constructor(

@@ -8,6 +8,7 @@ import {
 } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { MessageService } from "../../messages/message.service";
+import { User } from "../../models/user.model";
 import { AuthService } from "../shared/auth.service";
 
 @Component({
@@ -19,7 +20,9 @@ export class RegisterLoginComponent implements OnInit {
   public loginForm: FormGroup;
   public registerForm: FormGroup;
   public registerErrors: string;
-
+  public loginErrors: string;
+  @ViewChild('userPhoto',{ static:true }) userPhoto;
+  public photoUrl:string;
   constructor(
     private authenticationService: AuthService,
     private router: Router,
@@ -53,6 +56,7 @@ export class RegisterLoginComponent implements OnInit {
   }
 
   public onRegister() {
+    this.registerErrors = "";
     if (
       this.registerForm.value.password !==
       this.registerForm.value.confirmPassword
@@ -63,11 +67,13 @@ export class RegisterLoginComponent implements OnInit {
         confirmPassword: true,
       });
     } else {
+      const files : File = this.userPhoto.nativeElement.files;
+      const user : User = this.registerForm.value;
       this.authenticationService
         .emailSignUp(
           this.registerForm.value.email,
           this.registerForm.value.password,
-          this.registerForm.value
+          { user , files }
         )
         .then(
           () => {
@@ -97,6 +103,7 @@ export class RegisterLoginComponent implements OnInit {
   }
 
   public onLogin() {
+    this.loginErrors = "";
     this.authenticationService
       .emailLogin(this.loginForm.value.email, this.loginForm.value.password)
       .then(
@@ -111,7 +118,14 @@ export class RegisterLoginComponent implements OnInit {
           if (error.code === "auth/wrong-password") {
             this.loginForm.controls.password.setErrors({ password: true });
           }
+          if (error.code === "auth/user-disabled") {
+            this.loginErrors = "User account disabled.";
+          }
         }
       );
+  }
+
+  public onChange(event){
+    this.photoUrl = event.target.files[0].name;
   }
 }

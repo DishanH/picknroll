@@ -17,10 +17,9 @@ export class FileUploadService {
 
   constructor(public storage: AngularFireStorage) {}
 
-  public startUpload(data) {
+  public startUpload(data, name:string='product') {
       // The File object
       const file = data.files.item(0);
-
       // Client-side validation example
       if (file.type.split('/')[0] !== 'image') {
         console.error('unsupported file type :( ');
@@ -28,7 +27,7 @@ export class FileUploadService {
       }
 
       // The storage path
-      const path = `product-images/${new Date().getTime()}_${file}`;
+      const path = `${name}-images/${new Date().getTime()}_${file.name}`;
 
       // The main task
       this.task$ = this.storage.upload(path, file);
